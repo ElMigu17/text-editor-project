@@ -1,0 +1,56 @@
+@font-face {
+  font-family: "Roboto-Regular";
+  src: url("../assets/Roboto/Roboto-Regular.ttf") format("TrueType");
+}
+
+.msgs{
+  padding: 0px 40px 0px 40px;
+  height: 100%;
+  overflow: scroll;
+}
+.todo{
+  padding: 40px;
+  background-color: #A9FFDA;
+}
+.chat{
+  background-color: #7CBFA7;
+  height: 83vh;
+  position: relative;
+  width: 100%;
+
+}
+
+.posText{
+  position: absolute;
+  bottom: 0;
+  background-color: #5E8D7C;
+  width: inherit;
+  padding: 15px 0px 15px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  
+
+}
+
+.textBox{
+  padding: 5px;
+  background-color: #A9FFDA;
+  resize:horizontal;
+  border: 0;
+  width: fit-content;
+  resize: none;
+  width: 300px;
+}
+.posSendButton{
+  position: absolute;
+  right: 5%;
+  button{
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+
+  }
+
+}
