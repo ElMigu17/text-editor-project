@@ -1,6 +1,6 @@
 import React from "react";
 import {createRoot} from "react-dom/client";
-import { BrowserRouter, Routes, Route, createPath } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./basico/Layout";
 import Mostrador from "./Mostrador/Mostrador";
 import Editor from "./Editor/Editor";
