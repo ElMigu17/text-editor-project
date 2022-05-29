@@ -1,9 +1,12 @@
 ul{
     display: flex;
     justify-content: flex-end;
+    align-items:flex-start;
     list-style-type: none;
     margin: 0;
     background-color: #A9FFDA;
+    height: 5vh;
+
     li{
         border: 1px solid black;
         border-left: 0;
