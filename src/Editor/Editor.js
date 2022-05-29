@@ -9,6 +9,7 @@ function Editor() {
 
  
   var texts = new Map();
+  texts.set(1553775495554, "Lorem ipsum dolor<br>sit amet,<br>consectetur<br>adipiscing elit.<br>Euismod dui ornare<br>pharetra vitae urna.<br>Enim posuere in<br>aliquet consequat<br>ipsum. Amet<br>vestibulum morbi<br>vulputate massa ");
   texts.set(1653765395554, "Lorem ipsum dolor sit amet,<br>consectetur adipiscing elit.<br>Placerat tortor faucibus<br>mauris eu ut purus a, quam<br>quam. Risus vitae sed eget<br>amet. Laoreet enim interdum<br>mauris, dui est bibendum<br>volutpat. Eget at dolor sagittis<br>faucibus commodo. Arcu<br>quam egestas cras ipsum<br>aliquet aliquet. Est dolor at ");
   texts.set(1653765395654, "Lorem ipsum dolor sit<br>amet, consectetur<br>adipiscing elit. Mi nunc<br>viverra cursus libero<br>est dictum. Eu, vitae<br>risus, facilisi diam<br>aenean viverra sed<br>ultrices mauris. Purus<br>a, arcu pretium dui sed<br>aenean vestibulu.");
   texts.set(1653765495554, "Lorem ipsum<br>dolor sit amet,<br>consectetur<br>adipiscing elit.<br>Euismod dui<br>ornare pharetra<br>vitae urna. Enim");
@@ -16,8 +17,29 @@ function Editor() {
 
 
   const chatContent = [];
+  let lastDay = -1, lastMonth = -1, lastYear = -1;
   texts.forEach(function(value, key) {
-    chatContent.push(<MsgBox key={key} text={value}></MsgBox>);
+    let kay = new Date(key);
+    if(lastDay != kay.getDay() || lastMonth != kay.getMonth() || lastYear != kay.getFullYear()){
+      lastDay = kay.getDay();
+      lastMonth = kay.getMonth();
+      lastYear = kay.getFullYear();
+      console.log(lastDay +"/"+ lastMonth +"/"+ lastYear);
+      chatContent.push(
+        <div key={key}>
+          <div className='posDate'>
+            <p className='dateOrganization'>{lastDay}/{lastMonth}/{lastYear}</p>
+          </div>
+          <MsgBox text={value}></MsgBox>
+        </div>
+         );
+
+    }
+    else{
+    chatContent.push(             <MsgBox key={key} text={value}></MsgBox>
+    ); 
+    }
+  
   });
   console.log(chatContent)
   
