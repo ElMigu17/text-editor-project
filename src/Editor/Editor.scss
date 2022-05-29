@@ -4,13 +4,14 @@
 }
 
 .msgs{
-  padding: 0px 40px 0px 40px;
-  height: 100%;
+  padding: 0px 40px 5px 40px;
+  height: calc(100% - 96px);
   overflow: scroll;
   font-family: "Robot-Regular";
 }
 .todo{
   padding: 40px;
+  height: calc(95vh - 80px);
   background-color: #A9FFDA;
 }
 .chat{
