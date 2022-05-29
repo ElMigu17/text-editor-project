@@ -1,0 +1,21 @@
+ul{
+    display: flex;
+    justify-content: flex-end;
+    list-style-type: none;
+    margin: 0;
+    background-color: #A9FFDA;
+    li{
+        border: 1px solid black;
+        border-left: 0;
+        background-color: #fff;
+        padding: 4px;
+        cursor: pointer;
+        a{
+            color:black;
+        }
+    }
+    li:first-child{
+        border: 1px solid black;
+        
+    }
+}
