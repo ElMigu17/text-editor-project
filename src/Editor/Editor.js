@@ -61,7 +61,7 @@ function Editor() {
 
           </textarea>
           <div className='posSendButton'>
-            <button onClick={() => {console.log(chatContent); setChatContent(state => [...state, addNewMessage(getTextareaText(), Date.now())]); console.log(Date.now());}}>
+            <button onClick={() => {setChatContent(state => [...state, addNewMessage(getTextareaText(), Date.now())]);}}>
               <img src={arrow} alt="seta de envio">
               </img>
             </button>
@@ -78,7 +78,6 @@ function Editor() {
 
 window.addEventListener('load', () => updateTextarea())
 function updateTextarea() {
-  console.log("aaaaaaaaaaaaaaa");
   const tx = document.getElementsByTagName("textarea");
   for (let i = 0; i < tx.length; i++) {
     tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
