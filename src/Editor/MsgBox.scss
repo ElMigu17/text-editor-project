@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Roboto-Regular";
+    src: url("../assets/Roboto/Roboto-Regular.ttf") format("TrueType");
+  }
+
 .triangle{
     position: relative;
 }
@@ -19,9 +24,12 @@
 
 }
 
+
 .text{
     background-color: #95E6C8;
     margin: 0;
     padding: 5px;
     box-shadow: 0px 4px 4px rgba($color: #000000, $alpha: 0.25);
+    font-family: "Roboto-Regular";
+    font-size: 15px;
 }
