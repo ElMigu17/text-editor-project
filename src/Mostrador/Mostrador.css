@@ -11,32 +11,32 @@
   box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.todo{
+#todoMostrador{
   position: relative;
-
+  background-color: #A9FFDA;
   padding: 40px;
 }
 
-.organize{
+#organizeDiv{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
 }
 
-.poss-div{
+#possTitulo{
   position: absolute;
   top: 0;
   right: 0;
-  height: 100vh;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 90vh;
 
 }
 
-.my-title{
+#my-title{
   font-family: "Roboto-Regular";
   font-size: 40px;
 }

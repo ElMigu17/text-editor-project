@@ -33,10 +33,10 @@ function Mostrador() {
 
   return (
     <div>
-      <div className="todo">
-        <div className='organize'>{texts_in_divs}</div>
-        <div className='poss-div'>
-          <h1 className='my-title'>Title</h1>
+      <div id="todoMostrador">
+        <div id='organizeDiv'>{texts_in_divs}</div>
+        <div id='possTitulo'>
+          <h1 id='my-title'>Title</h1>
         </div>
       </div>
       <footer className='rodape'>
