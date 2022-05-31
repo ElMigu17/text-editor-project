@@ -87,7 +87,24 @@ function updateTextarea() {
 }
 
 function OnInput() {
+  console.log( document.getElementsByClassName("msgs")[0].clientHeight);
+  let chatMesgHeight = document.getElementsByClassName("msgs")[0].clientHeight;
+  let alturaAnterio = parseInt(this.style.height.replace("px", ""));
   this.style.height = "auto";
-  this.style.height = (this.scrollHeight) + "px";
+  let futureHeight = this.scrollHeight;
+  this.style.height = (alturaAnterio).toString() + "px";
+
+  if(chatMesgHeight >= 100 || futureHeight < alturaAnterio){
+    console.log(chatMesgHeight, futureHeight, alturaAnterio, futureHeight - alturaAnterio, chatMesgHeight - (futureHeight - alturaAnterio));
+    
+    if(alturaAnterio !== futureHeight){
+      this.style.height = "auto";
+      this.style.height = futureHeight + "px";
+      
+      let paddingBottom = 5;
+      document.getElementsByClassName("msgs")[0].style.height = ((chatMesgHeight - paddingBottom) - (futureHeight - alturaAnterio)) + "px";
+    }
+  }
+  console.log( document.getElementsByClassName("msgs")[0].clientHeight);
 }
 export default Editor;
