@@ -3,18 +3,18 @@
   src: url("../assets/Roboto/Roboto-Regular.ttf") format("TrueType");
 }
 
-.msgs{
+#msgs{
   padding: 0px 40px 5px 40px;
   height: calc(100% - 96px);
   overflow: scroll;
   font-family: "Robot-Regular";
 }
-.todo{
+#todoEditor{
   padding: 40px;
   height: calc(95vh - 80px);
   background-color: #A9FFDA;
 }
-.chat{
+#chat{
   background-color: #7CBFA7;
   height: 83vh;
   position: relative;
@@ -22,7 +22,7 @@
 
 }
 
-.posText{
+#posText{
   position: absolute;
   bottom: 0;
   background-color: #5E8D7C;
@@ -36,7 +36,7 @@
 
 }
 
-.textBox{
+#textBox{
   padding: 5px;
   background-color: #A9FFDA;
   border: 0;
@@ -46,7 +46,7 @@
   font-family: "Roboto-Regular";
 
 }
-.posSendButton{
+#posSendButton{
   position: absolute;
   right: 5%;
   button{

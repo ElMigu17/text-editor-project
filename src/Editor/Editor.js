@@ -51,16 +51,16 @@ function Editor() {
   
 
   return(
-    <div className='todo'>
-      <div className='chat'>
-        <div className='msgs'>
+    <div id='todoEditor'>
+      <div id='chat'>
+        <div id='msgs'>
           {chatContent}
         </div>
-        <div className='posText'>
-          <textarea placeholder='Text' className='textBox'>
+        <div id='posText'>
+          <textarea placeholder='Text' id='textBox'>
 
           </textarea>
-          <div className='posSendButton'>
+          <div id='posSendButton'>
             <button onClick={() => {setChatContent(state => [...state, addNewMessage(getTextareaText(), Date.now())]);}}>
               <img src={arrow} alt="seta de envio">
               </img>
