@@ -48,7 +48,15 @@ function getTextareaText(){
 function Editor() { 
   const [chatContent, setChatContent] = useState(provisorio);
 
-  
+   
+  React.useEffect(() => {
+    console.log("aaaaaaaaaaaaaaaaaa");
+    window.addEventListener('load', updateTextarea())
+    return () => {
+      window.removeEventListener('load', updateTextarea());
+    };
+
+  });
 
   return(
     <div id='todoEditor'>
@@ -57,7 +65,7 @@ function Editor() {
           {chatContent}
         </div>
         <div id='posText'>
-          <textarea placeholder='Text' id='textBox'>
+          <textarea placeholder='Text' id='textBox' onChange={console.log("aaaaaaaaaa")}>
 
           </textarea>
           <div id='posSendButton'>
@@ -76,7 +84,10 @@ function Editor() {
 
 
 
-window.addEventListener('load', () => updateTextarea())
+//window.addEventListener('load', () => updateTextarea())
+
+
+
 function updateTextarea() {
   const tx = document.getElementsByTagName("textarea");
   for (let i = 0; i < tx.length; i++) {
@@ -87,8 +98,8 @@ function updateTextarea() {
 }
 
 function OnInput() {
-  console.log( document.getElementsByClassName("msgs")[0].clientHeight);
-  let chatMesgHeight = document.getElementsByClassName("msgs")[0].clientHeight;
+  console.log( document.getElementById("msgs").clientHeight);
+  let chatMesgHeight = document.getElementById("msgs").clientHeight;
   let alturaAnterio = parseInt(this.style.height.replace("px", ""));
   this.style.height = "auto";
   let futureHeight = this.scrollHeight;
@@ -102,9 +113,8 @@ function OnInput() {
       this.style.height = futureHeight + "px";
       
       let paddingBottom = 5;
-      document.getElementsByClassName("msgs")[0].style.height = ((chatMesgHeight - paddingBottom) - (futureHeight - alturaAnterio)) + "px";
+      document.getElementById("msgs").style.height = ((chatMesgHeight - paddingBottom) - (futureHeight - alturaAnterio)) + "px";
     }
   }
-  console.log( document.getElementsByClassName("msgs")[0].clientHeight);
 }
 export default Editor;
