@@ -3,17 +3,19 @@
   src: url("../assets/Roboto/Roboto-Regular.ttf") format("TrueType");
 }
 
+#todoEditor{
+  padding: 40px;
+  height: calc(95vh - 80px);
+  background-color: #A9FFDA;
+}
+
 #msgs{
   padding: 0px 40px 5px 40px;
   height: calc(100% - 96px);
   overflow: scroll;
   font-family: "Robot-Regular";
 }
-#todoEditor{
-  padding: 40px;
-  height: calc(95vh - 80px);
-  background-color: #A9FFDA;
-}
+
 #chat{
   background-color: #7CBFA7;
   height: 83vh;
@@ -71,4 +73,24 @@
   border: 5px solid #95E6C8;
   border-radius: 6px;
 
+}
+
+@media screen and (max-width: 600px) {
+  #todoEditor{
+    padding: 0px;
+  }
+  #msgs{
+    padding: 0px 5px 5px 5px;
+    height: calc(100% - 100px);
+  }
+  #textBox{
+    width: 80vw;
+    margin-right: 20px;
+  }
+  #chat{
+    height: 100vh;
+  }
+  #posSendButton{
+    right: 1%;
+  }
 }

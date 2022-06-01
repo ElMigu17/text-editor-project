@@ -22,3 +22,12 @@ ul{
         
     }
 }
+
+@media screen and (max-width: 600px) {
+    ul{
+        position: absolute;
+        z-index: 10;
+        background-color: transparent;
+        right: 0;
+    }
+}

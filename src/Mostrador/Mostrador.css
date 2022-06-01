@@ -24,7 +24,7 @@
   align-items: center;
 }
 
-#possTitulo{
+#posTitulo{
   position: absolute;
   top: 0;
   right: 0;
@@ -50,4 +50,17 @@
 }
 .link-my-page{
   color: black;
+}
+
+
+@media screen and (max-width: 600px) {
+  #posTitulo{
+    position: relative;
+    height: 100px;
+  }
+  .divTextCaracteristics{
+    margin: 0;
+    margin-bottom: 10px;
+  }
+
 }

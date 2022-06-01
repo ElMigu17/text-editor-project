@@ -34,10 +34,10 @@ function Mostrador() {
   return (
     <div>
       <div id="todoMostrador">
-        <div id='organizeDiv'>{texts_in_divs}</div>
-        <div id='possTitulo'>
+        <div id='posTitulo'>
           <h1 id='my-title'>Title</h1>
         </div>
+        <div id='organizeDiv'>{texts_in_divs}</div>
       </div>
       <footer className='rodape'>
         <a href='https://elmigu17.github.io/portifolio/' className='link-my-page'>Made By Miguel</a>

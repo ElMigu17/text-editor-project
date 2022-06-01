@@ -65,11 +65,11 @@ function Editor() {
           {chatContent}
         </div>
         <div id='posText'>
-          <textarea placeholder='Text' id='textBox' onChange={console.log("aaaaaaaaaa")}>
+          <textarea placeholder='Text' id='textBox'>
 
           </textarea>
           <div id='posSendButton'>
-            <button onClick={() => {setChatContent(state => [...state, addNewMessage(getTextareaText(), Date.now())]);}}>
+            <button onClick={() => {setChatContent(state => [...state, addNewMessage(getTextareaText(), Date.now())]);updateTextarea();} }>
               <img src={arrow} alt="seta de envio">
               </img>
             </button>
@@ -105,7 +105,7 @@ function OnInput() {
   let futureHeight = this.scrollHeight;
   this.style.height = (alturaAnterio).toString() + "px";
 
-  if(chatMesgHeight >= 100 || futureHeight < alturaAnterio){
+  if(chatMesgHeight >= 200 || futureHeight < alturaAnterio){
     console.log(chatMesgHeight, futureHeight, alturaAnterio, futureHeight - alturaAnterio, chatMesgHeight - (futureHeight - alturaAnterio));
     
     if(alturaAnterio !== futureHeight){
