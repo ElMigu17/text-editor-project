@@ -37,10 +37,13 @@ texts.forEach(function(value, key) {
 function getTextareaText(){
   let textarea = document.getElementsByTagName("textarea")[0];
   let text = textarea.value;
-  document.getElementsByTagName("textarea")[0].value = "";
   text = text.replaceAll("\n", "<br/>");
-  textarea.style.height = "48px";
 
+  textarea.value = "";
+  setTimeout(() => textarea.style.height = "48px", 1);
+
+  
+  setTimeout(() => document.getElementById("msgs").style.height = "calc(100% - " + document.getElementById("posText").offsetHeight.toString() + "px - 7px)", 1)
   return text;
 }
 
@@ -50,7 +53,6 @@ function Editor() {
 
    
   React.useEffect(() => {
-    console.log("aaaaaaaaaaaaaaaaaa");
     window.addEventListener('load', updateTextarea())
     return () => {
       window.removeEventListener('load', updateTextarea());
@@ -69,7 +71,7 @@ function Editor() {
 
           </textarea>
           <div id='posSendButton'>
-            <button onClick={() => {setChatContent(state => [...state, addNewMessage(getTextareaText(), Date.now())]);updateTextarea();} }>
+            <button onClick={() => {let newMsg = getTextareaText(); if(newMsg !== ""){setChatContent(state => [...state, addNewMessage(newMsg, Date.now())]);}} }>
               <img src={arrow} alt="seta de envio">
               </img>
             </button>
@@ -98,7 +100,6 @@ function updateTextarea() {
 }
 
 function OnInput() {
-  console.log( document.getElementById("msgs").clientHeight);
   let chatMesgHeight = document.getElementById("msgs").clientHeight;
   let alturaAnterio = parseInt(this.style.height.replace("px", ""));
   this.style.height = "auto";
@@ -106,7 +107,6 @@ function OnInput() {
   this.style.height = (alturaAnterio).toString() + "px";
 
   if(chatMesgHeight >= 200 || futureHeight < alturaAnterio){
-    console.log(chatMesgHeight, futureHeight, alturaAnterio, futureHeight - alturaAnterio, chatMesgHeight - (futureHeight - alturaAnterio));
     
     if(alturaAnterio !== futureHeight){
       this.style.height = "auto";
