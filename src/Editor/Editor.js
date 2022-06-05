@@ -1,38 +1,22 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './Editor.scss';
 import MsgBox from './MsgBox';
 import arrow from "../assets/arrow.png";
+import { useLocation } from 'react-router-dom';
 
-const provisorio = [];
-var texts = new Map();
-texts.set(1553775495554, "Lorem ipsum dolor<br>sit amet,<br>consectetur<br>adipiscing elit.<br>Euismod dui ornare<br>pharetra vitae urna.<br>Enim posuere in<br>aliquet consequat<br>ipsum. Amet<br>vestibulum morbi<br>vulputate massa ");
-texts.set(1653765395554, "Lorem ipsum dolor sit amet,<br>consectetur adipiscing elit.<br>Placerat tortor faucibus<br>mauris eu ut purus a, quam<br>quam. Risus vitae sed eget<br>amet. Laoreet enim interdum<br>mauris, dui est bibendum<br>volutpat. Eget at dolor sagittis<br>faucibus commodo. Arcu<br>quam egestas cras ipsum<br>aliquet aliquet. Est dolor at ");
-texts.set(1653765395654, "Lorem ipsum dolor sit<br>amet, consectetur<br>adipiscing elit. Mi nunc<br>viverra cursus libero<br>est dictum. Eu, vitae<br>risus, facilisi diam<br>aenean viverra sed<br>ultrices mauris. Purus<br>a, arcu pretium dui sed<br>aenean vestibulu.");
-texts.set(1653765495554, "Lorem ipsum<br>dolor sit amet,<br>consectetur<br>adipiscing elit.<br>Euismod dui<br>ornare pharetra<br>vitae urna. Enim");
-texts.set(1653775495554, "Lorem ipsum dolor<br>sit amet,<br>consectetur<br>adipiscing elit.<br>Euismod dui ornare<br>pharetra vitae urna.<br>Enim posuere in<br>aliquet consequat<br>ipsum. Amet<br>vestibulum morbi<br>vulputate massa ");
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux'
+import  {selectTexts, addTexts}  from '../basico/TextsSlice'
+import { type } from '@testing-library/user-event/dist/type';
 
 
-let lastDay = -1, lastMonth = -1, lastYear = -1;
 
-function addNewMessage(value, key){
-  let kay = new Date(key);
-  if(lastDay !== kay.getDate() || lastMonth !== kay.getMonth() || lastYear !== kay.getFullYear()){
-    
-    lastDay = kay.getDate();
-    lastMonth = kay.getMonth();
-    lastYear = kay.getFullYear();
-    
-    return( <div key={key}> <div className='posDate'> <p className='dateOrganization'>{lastDay}/{lastMonth+1}/{lastYear}</p> </div> <MsgBox text={value}></MsgBox> </div>);
-  }
-  else{
-    return( <MsgBox key={key} text={value}></MsgBox>); 
-  }
-}
 
-texts.forEach(function(value, key) {
-  provisorio.push(addNewMessage(value, key));
 
-});
+
+
+
+
 
 function getTextareaText(){
   let textarea = document.getElementsByTagName("textarea")[0];
@@ -47,11 +31,40 @@ function getTextareaText(){
   return text;
 }
 
+var lastDay = -1, lastMonth = -1, lastYear = -1;
+function addNewMessage(value, key){
 
+  let kay = new Date(key);
+  if(lastDay !== kay.getDate() || lastMonth !== kay.getMonth() || lastYear !== kay.getFullYear()){
+    
+    lastDay = kay.getDate();
+    lastMonth = kay.getMonth();
+    lastYear = kay.getFullYear();
+    
+    return( <div key={key}> <div className='posDate'> <p className='dateOrganization'>{lastDay}/{lastMonth+1}/{lastYear}</p> </div> <MsgBox text={value}></MsgBox> </div>);
+  }
+  else{
+    return( <MsgBox key={key} text={value}></MsgBox>); 
+  }
+}
 function Editor() { 
-  const [chatContent, setChatContent] = useState(provisorio);
+  const provisorio = [];
+  const location = useLocation();
+  const dispatch = useDispatch();
+  var idText = location.state;
+  if(typeof idText !== 'number'){
+    idText = 1;
+  }
+  var texts = useSelector(selectTexts)[idText];
+  console.log("idText", idText)
 
-   
+  Object.keys(texts).forEach(function(step) {
+    if(step !== "color"){
+      provisorio.push(addNewMessage(texts[step], parseInt(step)));
+    }
+  });
+
+
   React.useEffect(() => {
     window.addEventListener('load', updateTextarea())
     return () => {
@@ -59,19 +72,18 @@ function Editor() {
     };
 
   });
-
   return(
     <div id='todoEditor'>
       <div id='chat'>
         <div id='msgs'>
-          {chatContent}
+          {provisorio}
         </div>
         <div id='posText'>
           <textarea placeholder='Text' id='textBox'>
 
           </textarea>
           <div id='posSendButton'>
-            <button onClick={() => {let newMsg = getTextareaText(); if(newMsg !== ""){setChatContent(state => [...state, addNewMessage(newMsg, Date.now())]);}} }>
+            <button onClick={() => {let newMsg = getTextareaText(); if(newMsg !== ""){dispatch(addTexts({"key": Date.now(), "texts": newMsg, "id": idText}))}} }>
               <img src={arrow} alt="seta de envio">
               </img>
             </button>
