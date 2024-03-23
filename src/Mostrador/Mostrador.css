@@ -12,12 +12,13 @@
 }
 
 #todoMostrador{
-  position: relative;
-  background-color: #A9FFDA;
-  padding: 40px;
+  min-height: 100%;
 }
 
 #organizeDiv{
+  position: relative;
+  background-color: #A9FFDA;
+  padding: 40px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -27,30 +28,14 @@
   z-index: 20;
 }
 
-#posTitulo{
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
-  z-index: 10;
-
-}
-
-#my-title{
-  font-family: "Roboto-Regular";
-  font-size: 40px;
-}
-
 .rodape{
   background-color: #CFE7CF;
-  width: 100vw - 14px;
+  width: calc(100vw - 14px);
   text-align: center;
   font-family: "Roboto-Regular";
   padding: 7px;
+  position:absolute;
+  bottom: 0;
 }
 .link-my-page{
   color: black;
@@ -58,10 +43,6 @@
 
 
 @media screen and (max-width: 600px) {
-  #posTitulo{
-    position: relative;
-    height: 100px;
-  }
   .divTextCaracteristics{
     margin: 0;
     margin-bottom: 10px;
