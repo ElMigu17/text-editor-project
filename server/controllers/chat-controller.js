@@ -2,7 +2,7 @@ const knex = require('./../db')
 
 exports.chatAllComplete = async (req, res) => {
   knex
-    .select('chat.*', 'message.text', 'tag.color as tagColor', 'tag.name as tagName') 
+    .select('chat.*', 'message.created_at as created_at', 'message.text', 'tag.color as tagColor', 'tag.name as tagName') 
     .from('chat')
     .leftJoin('message', 'chat.id', 'message.chatId')
     .leftJoin('tag_chat', 'tag_chat.chatId', 'chat.id')
@@ -23,7 +23,7 @@ exports.chatAllWithLastMessage = async (req, res) => {
     .limit(1);
 
   knex
-    .select('chat.*', 'message.text', 'tag.color as tagColor', 'tag.name as tagName') 
+    .select('chat.*', 'message.created_at as created_at', 'message.text', 'tag.color as tagColor', 'tag.name as tagName') 
     .from('chat')
     .leftJoin('message', 'chat.id', 'message.chatId')
     .leftJoin('tag_chat', 'tag_chat.chatId', 'chat.id')
@@ -34,6 +34,22 @@ exports.chatAllWithLastMessage = async (req, res) => {
     })
     .catch(err => {
       res.json({ message: `There was an error retrieving chat: ${err}` })
+    })
+}
+
+exports.oneChatComplete = async (req, res) => {
+  knex
+    .select('chat.*', 'message.created_at as created_at', 'message.text', 'tag.color as tagColor', 'tag.name as tagName') 
+    .from('chat')
+    .leftJoin('message', 'chat.id', 'message.chatId')
+    .leftJoin('tag_chat', 'tag_chat.chatId', 'chat.id')
+    .leftJoin('tag', 'tag_chat.tagId', 'tag.id')
+    .where("chat.id", req.body.chatId)
+    .then(userData => {
+      res.json(userData)
+    })
+    .catch(err => {
+      res.json({ message: `There was an error retrieving chats: ${err}` })
     })
 } 
 

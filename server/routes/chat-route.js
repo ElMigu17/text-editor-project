@@ -6,10 +6,11 @@ const router = express.Router()
 
 router.get('/allChatComplete', chatRoutes.chatAllComplete)
 router.get('/allChatWithLastMessage', chatRoutes.chatAllWithLastMessage)
+router.post('/oneChatComplete', chatRoutes.oneChatComplete)
 
 router.post('/chat', chatRoutes.chatCreate)
 router.post('/tag', chatRoutes.tagCreate)
-router.post('/message', chatRoutes.messageCreate)
+router.post('/message', chatRoutes.messageCreate) 
 
 router.put('/deleteChat', chatRoutes.chatDelete)
 router.put('/deleteTag', chatRoutes.tagDelete)
