@@ -6,11 +6,10 @@ import { Link } from 'react-router-dom';
 import BackComunication from '../basico/ComunicationBack.js';
 
 function Mostrador(props) {
-  const [chatInfo, setChatInfo] = useState("");
+  const [chatsInfo, setChatsInfo] = useState("");
   useEffect(() => {
     BackComunication.getChatWithLastMessage().then( (res) =>{
-      console.log("aaa", res);
-      setChatInfo(res);
+      setChatsInfo(res);
     });
   }, [])
 
@@ -23,8 +22,8 @@ function Mostrador(props) {
   }
 
   const chat_in_divs = [];
-  Object.keys(chatInfo).forEach((step, index) => {
-    let chat_info = chatInfo[step];
+  Object.keys(chatsInfo).forEach((step, index) => {
+    let chat_info = chatsInfo[step];
     chat_in_divs.push(
       <Link key={index}
         to={{pathname:"/editor"}} state={index + 1}>

@@ -1,21 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState } from 'react';
 import './Editor.scss';
 import MsgBox from './MsgBox';
 import arrow from "../assets/arrow.png";
 import { useLocation } from 'react-router-dom';
-
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux'
-import  {selectTexts, addTexts}  from '../basico/TextsSlice'
-import { type } from '@testing-library/user-event/dist/type';
-
-
-
-
-
-
-
-
+import BackComunication from '../basico/ComunicationBack.js';
 
 
 function getTextareaText(){
@@ -33,14 +21,13 @@ function getTextareaText(){
 
 var lastDay = -1, lastMonth = -1, lastYear = -1;
 function addNewMessage(value, key){
-
   let kay = new Date(key);
   if(lastDay !== kay.getDate() || lastMonth !== kay.getMonth() || lastYear !== kay.getFullYear()){
     
     lastDay = kay.getDate();
     lastMonth = kay.getMonth();
     lastYear = kay.getFullYear();
-    
+
     return( <div key={key}> <div className='posDate'> <p className='dateOrganization'>{lastDay}/{lastMonth+1}/{lastYear}</p> </div> <MsgBox text={value}></MsgBox> </div>);
   }
   else{
@@ -48,42 +35,48 @@ function addNewMessage(value, key){
   }
 }
 function Editor() { 
-  const provisorio = [];
+  
+  const definitivo = [];
+  const [chatInfo, setChatInfo] = useState("");
   const location = useLocation();
-  const dispatch = useDispatch();
   var idText = location.state;
-  if(typeof idText !== 'number'){
-    idText = 1;
-  }
-  var texts = useSelector(selectTexts)[idText];
-  console.log("idText", idText)
+  useEffect(() => {
+    BackComunication.getOneChatComplete(idText).then( (res) =>{
+      setChatInfo(res);
+    });
 
-  Object.keys(texts).forEach(function(step) {
-    if(step !== "color"){
-      provisorio.push(addNewMessage(texts[step], parseInt(step)));
-    }
-  });
-
-
-  React.useEffect(() => {
     window.addEventListener('load', updateTextarea())
-    return () => {
+    return () => { 
       window.removeEventListener('load', updateTextarea());
     };
-
+  }, [])
+ 
+  Object.keys(chatInfo).forEach(function(step) {
+    let stepChat = chatInfo[step];
+    definitivo.push(addNewMessage(stepChat['text'], parseInt(stepChat['created_at'])));
   });
+
   return(
     <div id='todoEditor'>
       <div id='chat'>
         <div id='msgs'>
-          {provisorio}
+          {definitivo}
         </div>
         <div id='posText'>
           <textarea placeholder='Text' id='textBox'>
 
           </textarea>
           <div id='posSendButton'>
-            <button onClick={() => {let newMsg = getTextareaText(); if(newMsg !== ""){dispatch(addTexts({"key": Date.now(), "texts": newMsg, "id": idText}))}} }>
+            <button onClick={() => {
+              let newMsg = getTextareaText(); 
+                if(newMsg !== ""){
+                  BackComunication.postMessage(newMsg, chatInfo[0]['id']).then( () => {
+                    BackComunication.getOneChatComplete(idText).then( (res) =>{
+                      setChatInfo(res);
+                    });
+                  });
+                }
+              } }>
               <img src={arrow} alt="seta de envio">
               </img>
             </button>
@@ -97,18 +90,12 @@ function Editor() {
 }
 
 
-
-//window.addEventListener('load', () => updateTextarea())
-
-
-
 function updateTextarea() {
-  const tx = document.getElementsByTagName("textarea");
-  for (let i = 0; i < tx.length; i++) {
-    tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
-    tx[i].addEventListener("input", OnInput, false);
+  const tx = document.getElementsByTagName("textarea")[0];
+  if(tx !== undefined && tx.scrollHeight < 58 ){  
+    tx.setAttribute("style", "height:" + (tx.scrollHeight) + "px;overflow-y:hidden;");
+    tx.addEventListener("input", OnInput, false); 
   }
-
 }
 
 function OnInput() {
@@ -116,17 +103,24 @@ function OnInput() {
   let alturaAnterio = parseInt(this.style.height.replace("px", ""));
   this.style.height = "auto";
   let futureHeight = this.scrollHeight;
+  let futureAddedHeight = futureHeight - alturaAnterio;
+  futureHeight = chatMesgHeight-(futureAddedHeight) > 200 ? futureHeight : maxChatHeight();
   this.style.height = (alturaAnterio).toString() + "px";
-
-  if(chatMesgHeight >= 200 || futureHeight < alturaAnterio){
     
-    if(alturaAnterio !== futureHeight){
-      this.style.height = "auto";
-      this.style.height = futureHeight + "px";
-      
-      let paddingBottom = 5;
-      document.getElementById("msgs").style.height = ((chatMesgHeight - paddingBottom) - (futureHeight - alturaAnterio)) + "px";
-    }
+  if(alturaAnterio !== futureHeight){
+    this.style.height = "auto";
+    this.style.height = futureHeight + "px";
+    let paddingBottom = 5;
+
+    document.getElementById("msgs").style.height = ((chatMesgHeight - paddingBottom) - (futureAddedHeight)) + "px";
   }
+  
 }
+
+function maxChatHeight(){
+  let chat = document.getElementById("chat");
+  let chatHeight = chat.clientHeight;
+  return chatHeight/2;
+}
+
 export default Editor;
