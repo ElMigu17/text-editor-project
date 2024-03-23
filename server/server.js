@@ -3,10 +3,11 @@ const bodyParser = require('body-parser')
 const compression = require('compression')
 const cors = require('cors')
 const helmet = require('helmet')
+const proxy = require('http-proxy-middleware');
 
 const chatRouter = require('./routes/chat-route')
 
-const PORT = process.env.PORT || 4001
+const PORT = process.env.PORT || 3001
 
 const app = express()
 
@@ -15,6 +16,12 @@ app.use(helmet())
 app.use(compression())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use('/chat', chatRouter)
 
