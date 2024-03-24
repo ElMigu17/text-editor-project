@@ -1,3 +1,4 @@
+const { group } = require('console')
 const knex = require('./../db')
 
 exports.chatAllComplete = async (req, res) => {
@@ -15,12 +16,23 @@ exports.chatAllComplete = async (req, res) => {
     })
 } 
 
+exports.getLastChatId = async (req, res) => {
+  knex
+    .select('id') 
+    .from('chat')
+    .max('id')
+    .then(userData => {
+      res.json(userData)
+    })
+    .catch(err => {
+      res.json({ message: `There was an error retrieving chats: ${err}` })
+    })
+} 
+
 exports.chatAllWithLastMessage = async (req, res) => {
-  var subquery = knex
-    .select('id')
+  var subquery = knex.max('created_at')
     .from('message')
-    .orderBy('created_at', 'desc')
-    .limit(1);
+    .groupBy('chatId');
 
   knex
     .select('chat.*', 'message.created_at as created_at', 'message.text', 'tag.color as tagColor', 'tag.name as tagName') 
@@ -28,7 +40,7 @@ exports.chatAllWithLastMessage = async (req, res) => {
     .leftJoin('message', 'chat.id', 'message.chatId')
     .leftJoin('tag_chat', 'tag_chat.chatId', 'chat.id')
     .leftJoin('tag', 'tag_chat.tagId', 'tag.id')
-    .where('message.id', 'in', subquery)
+    .where('message.created_at', 'in', subquery)
     .then(userData => {
       res.json(userData)
     })
@@ -41,7 +53,7 @@ exports.oneChatComplete = async (req, res) => {
   knex
     .select('chat.*', 'message.created_at as created_at', 'message.text', 'tag.color as tagColor', 'tag.name as tagName') 
     .from('chat')
-    .leftJoin('message', 'chat.id', 'message.chatId')
+    .leftJoin('message', 'message.chatId', 'chat.id')
     .leftJoin('tag_chat', 'tag_chat.chatId', 'chat.id')
     .leftJoin('tag', 'tag_chat.tagId', 'tag.id')
     .where("chat.id", req.body.chatId)
