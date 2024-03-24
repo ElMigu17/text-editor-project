@@ -13,11 +13,10 @@ class ClassBackComunication {
             dataType: 'json',
             contentType: 'application/json',
             success: function(response){
-                console.log("DEU BOM FI");
                 return response;
             },
             error: function(response){
-                console.log("DEU RUIM FI");
+                console.log("getChatWithLastMessage DEU RUIM FI");
                 return response;
             }
             
@@ -32,11 +31,10 @@ class ClassBackComunication {
             contentType: 'application/json', 
             data: JSON.stringify({chatId: chatId}), 
             success: function(response){ 
-                console.log("DEU BOM FI");
                 return response; 
             },
             error: function(response){
-                console.log("DEU RUIM FI");
+                console.log("getOneChatComplete DEU RUIM FI");
                 return response;
             }
             
@@ -51,11 +49,10 @@ class ClassBackComunication {
             contentType: 'application/json', 
             data: JSON.stringify({text: text, chatId: chatId}), 
             success: function(response){ 
-                console.log("DEU BOM FI");
                 return response; 
             },
             error: function(response){
-                console.log("DEU RUIM FI");
+                console.log("postMessage DEU RUIM FI");
                 return response;
             }
             
@@ -70,11 +67,10 @@ class ClassBackComunication {
             contentType: 'application/json', 
             data: JSON.stringify({color: color}), 
             success: function(response){ 
-                console.log("DEU BOM FI");
                 return response; 
             },
             error: function(response){
-                console.log("DEU RUIM FI");
+                console.log("postChat DEU RUIM FI");
                 return response;
             }
         })
@@ -87,11 +83,10 @@ class ClassBackComunication {
             dataType: 'json',
             contentType: 'application/json',
             success: function(response){
-                console.log("DEU BOM FI");
                 return response;
             },
             error: function(response){
-                console.log("DEU RUIM FI");
+                console.log("getLastChatId DEU RUIM FI");
                 return response;
             }
             
