@@ -12,17 +12,18 @@
 }
 
 #todoMostrador{
+  position: relative;
   min-height: 100%;
 }
 
 #organizeDiv{
-  position: relative;
   background-color: #A9FFDA;
   padding: 40px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
+  min-height: calc(95vh - 19.3333px - 14px - 80px);
 
   position: relative;
   z-index: 20;
@@ -34,8 +35,7 @@
   text-align: center;
   font-family: "Roboto-Regular";
   padding: 7px;
-  position:absolute;
-  bottom: 0;
+  position:relative;
 }
 .link-my-page{
   color: black;
