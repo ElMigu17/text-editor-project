@@ -1,4 +1,9 @@
+@font-face {
+    font-family: "Roboto-Regular";
+    src: url("../assets/Roboto/Roboto-Regular.ttf") format("TrueType");
+  }
 ul{
+    font-family: "Roboto-Regular";
     display: flex;
     justify-content: flex-end;
     align-items:flex-start;
@@ -21,6 +26,55 @@ ul{
         border: 1px solid black;
         
     }
+}
+#page_modal_chat{
+    font-family: "Roboto-Regular";
+    display: none;
+    opacity: 1;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    right: 0;  
+    justify-content: center;
+    align-items: center;
+    z-index: 80;
+}
+#back_modal_criar_chat{
+    opacity: 0.4;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;  
+    background-color: black;
+    z-index: 90;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal_criar_chat{
+    background-color: #A9FFDA;
+    opacity: 1;
+    z-index: 100;
+    padding: 7px 20px;
+    color: black;
+    width: 250px;
+    display: flex;
+    align-items: end;
+    flex-direction:column;
+
+}
+
+#modal_criar_chat_input{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    width: 100%;
+    
+}
+#modal_criar_chat_button{
+    width: fit-content;
 }
 
 @media screen and (max-width: 600px) {
