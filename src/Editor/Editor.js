@@ -19,42 +19,62 @@ function getTextareaText(){
   return text;
 }
 
-var lastDay = -1, lastMonth = -1, lastYear = -1;
-function addNewMessage(value, key){
-  let kay = new Date(key);
+let lastDay = -1, lastMonth = -1, lastYear = -1;
+function addNewMessage(value, date){
+  let kay = new Date(date);
   if(lastDay !== kay.getDate() || lastMonth !== kay.getMonth() || lastYear !== kay.getFullYear()){
     
     lastDay = kay.getDate();
     lastMonth = kay.getMonth();
     lastYear = kay.getFullYear();
 
-    return( <div key={key}> <div className='posDate'> <p className='dateOrganization'>{lastDay}/{lastMonth+1}/{lastYear}</p> </div> <MsgBox text={value}></MsgBox> </div>);
+    return( <div key={date}> <div className='posDate'> <p className='dateOrganization'>{lastDay}/{lastMonth+1}/{lastYear}</p> </div> <MsgBox text={value}></MsgBox> </div>);
   }
   else{
-    return( <MsgBox key={key} text={value}></MsgBox>); 
+    return( <MsgBox key={date} text={value}></MsgBox>); 
   }
 }
 function Editor() { 
   
   const definitivo = [];
   const [chatInfo, setChatInfo] = useState("");
+  const [idText, setIdText] = useState("");
   const location = useLocation();
-  var idText = location.state;
+
   useEffect(() => {
-    BackComunication.getOneChatComplete(idText).then( (res) =>{
-      setChatInfo(res);
-    });
+    
+    lastDay = -1;
+    lastMonth = -1;
+    lastYear = -1;
+    if(location.state === undefined || location.state === null){
+      BackComunication.getLastChatId().then((res)=>{
+        setIdText(res[0].id)
+      }).then(()=>{
+
+        BackComunication.getOneChatComplete(idText).then( (res) =>{
+          setChatInfo(res);
+        });
+      })
+    }
+    else{
+      setIdText(location.state)
+      BackComunication.getOneChatComplete(location.state).then( (res) =>{
+        setChatInfo(res);
+      });
+    }
 
     window.addEventListener('load', updateTextarea())
     return () => { 
       window.removeEventListener('load', updateTextarea());
     };
   }, [])
- 
-  Object.keys(chatInfo).forEach(function(step) {
-    let stepChat = chatInfo[step];
-    definitivo.push(addNewMessage(stepChat['text'], parseInt(stepChat['created_at'])));
-  });
+  
+  if(chatInfo.length > 0 && chatInfo[0]['text'] != null){
+    Object.keys(chatInfo).forEach(function(step) {
+      let stepChat = chatInfo[step];
+      definitivo.push(addNewMessage(stepChat['text'], parseInt(stepChat['created_at'])));
+    });
+  }
 
   return(
     <div id='todoEditor'>
@@ -68,15 +88,18 @@ function Editor() {
           </textarea>
           <div id='posSendButton'>
             <button onClick={() => {
+              lastDay = -1;
+              lastMonth = -1;
+              lastYear = -1;
               let newMsg = getTextareaText(); 
-                if(newMsg !== ""){
-                  BackComunication.postMessage(newMsg, chatInfo[0]['id']).then( () => {
-                    BackComunication.getOneChatComplete(idText).then( (res) =>{
-                      setChatInfo(res);
-                    });
+              if(newMsg !== ""){
+                BackComunication.postMessage(newMsg, idText).then( (res1) => {
+                  BackComunication.getOneChatComplete(idText).then( (res) =>{
+                    setChatInfo(res);
                   });
-                }
-              } }>
+                });
+              }
+            }}>
               <img src={arrow} alt="seta de envio">
               </img>
             </button>
