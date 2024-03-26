@@ -113,9 +113,10 @@ knex.schema.hasTable('tag_chat')
   console.error(`There was an error setting up the database: ${error}`)
 })
 
-knex.select('*').from('message')
+knex.select('*').from('chat')
   .then(data => console.log('data:', data))
   .catch(err => console.log(err))
+  .limit(3)
 
 module.exports = knex
 
