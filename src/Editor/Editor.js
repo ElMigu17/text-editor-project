@@ -6,46 +6,60 @@ import { useLocation } from 'react-router-dom';
 import BackComunication from '../basico/ComunicationBack.js';
 
 
-function getTextareaText(){
-  let textarea = document.getElementsByTagName("textarea")[0];
-  let text = textarea.value;
-  text = text.replaceAll("\n", "<br/>");
-
-  textarea.value = "";
-  setTimeout(() => textarea.style.height = "48px", 1);
-
-  
-  setTimeout(() => document.getElementById("msgs").style.height = "calc(100% - " + document.getElementById("posText").offsetHeight.toString() + "px - 7px)", 1)
-  return text;
-}
-
-let lastDay = -1, lastMonth = -1, lastYear = -1;
-function addNewMessage(value, date){
-  let kay = new Date(date);
-  if(lastDay !== kay.getDate() || lastMonth !== kay.getMonth() || lastYear !== kay.getFullYear()){
-    
-    lastDay = kay.getDate();
-    lastMonth = kay.getMonth();
-    lastYear = kay.getFullYear();
-
-    return( <div key={date}> <div className='posDate'> <p className='dateOrganization'>{lastDay}/{lastMonth+1}/{lastYear}</p> </div> <MsgBox text={value}></MsgBox> </div>);
-  }
-  else{
-    return( <MsgBox key={date} text={value}></MsgBox>); 
-  }
-}
 function Editor() { 
   
   const definitivo = [];
   const [chatInfo, setChatInfo] = useState("");
   const [idText, setIdText] = useState("");
+  const [lastDate, setLastDate] = useState({}); 
   const location = useLocation();
+
+  function getTextareaText(){
+    let textarea = document.getElementsByTagName("textarea")[0];
+    let text = textarea.value;
+    text = text.replaceAll("\n", "<br/>");
+  
+    textarea.value = "";
+    setTimeout(() => textarea.style.height = "48px", 1);
+  
+    
+    setTimeout(() => document.getElementById("msgs").style.height = "calc(100% - " + document.getElementById("posText").offsetHeight.toString() + "px - 7px)", 1)
+    return text;
+  }
+  
+  function addNewMessage(value, date){
+    let kay = new Date(date);
+    if(lastDate.lastDay !== kay.getDate() || lastDate.lastMonth !== kay.getMonth() || lastDate.lastYear !== kay.getFullYear()){
+      
+      lastDate.lastDay = kay.getDate(); 
+      lastDate.lastMonth = kay.getMonth(); 
+      lastDate.lastYear = kay.getFullYear();
+  
+      return( <div key={date}> <div className='posDate'> <p className='dateOrganization'>{lastDate.lastDay}/{lastDate.lastMonth+1}/{lastDate.lastYear}</p> </div> <MsgBox text={value}></MsgBox> </div>);
+    }
+    else{
+      return( <MsgBox key={date} text={value}></MsgBox>); 
+    }
+  }
+
+  function createNewMessage(){ 
+    let newMsg = getTextareaText(); 
+    if(newMsg !== ""){
+      BackComunication.postMessage(newMsg, idText).then( (res1) => {
+        BackComunication.getOneChatComplete(idText).then( (res) =>{
+          setChatInfo(res);
+        });
+      });
+    }
+  }
 
   useEffect(() => {
     
-    lastDay = -1;
-    lastMonth = -1;
-    lastYear = -1;
+    setLastDate({
+      lastDay: -1,
+      lastMonth: -1,
+      lastYear: -1 
+    })
     if(location.state === undefined || location.state === null){
       BackComunication.getLastChatId().then((res)=>{
         setIdText(res[0].id)
@@ -67,7 +81,9 @@ function Editor() {
     return () => { 
       window.removeEventListener('load', updateTextarea());
     };
-  }, [])
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
   
   if(chatInfo.length > 0 && chatInfo[0]['text'] != null){
     Object.keys(chatInfo).forEach(function(step) {
@@ -75,6 +91,7 @@ function Editor() {
       definitivo.push(addNewMessage(stepChat['text'], parseInt(stepChat['created_at'])));
     });
   }
+
 
   return(
     <div id='todoEditor'>
@@ -87,19 +104,7 @@ function Editor() {
 
           </textarea>
           <div id='posSendButton'>
-            <button onClick={() => {
-              lastDay = -1;
-              lastMonth = -1;
-              lastYear = -1;
-              let newMsg = getTextareaText(); 
-              if(newMsg !== ""){
-                BackComunication.postMessage(newMsg, idText).then( (res1) => {
-                  BackComunication.getOneChatComplete(idText).then( (res) =>{
-                    setChatInfo(res);
-                  });
-                });
-              }
-            }}>
+            <button onClick={ createNewMessage }>
               <img src={arrow} alt="seta de envio">
               </img>
             </button>
