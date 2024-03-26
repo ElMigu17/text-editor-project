@@ -13,18 +13,34 @@ ul{
     height: 5vh;
 
     li{
+        font-size: 16px;
         border: 1px solid black;
         border-left: 0;
         background-color: #fff;
         padding: 4px;
         cursor: pointer;
+        
         a{
+            text-decoration: none;
             color:black;
         }
     }
     li:first-child{
         border: 1px solid black;
         
+    }
+    .li-from-button{
+        padding: 0;
+    }
+    button{
+        font-size: 16px;
+        background-color: transparent;
+        height: 100%;
+        width: 100%;
+        border: 0;
+        
+        padding: 4px;
+
     }
 }
 #page_modal_chat{

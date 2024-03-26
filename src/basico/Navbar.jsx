@@ -18,7 +18,7 @@ function Navbar() {
         <li>
           <Link to="/">Home</Link>
         </li>
-        <li>
+        <li class="li-from-button">
           <button onClick={() => {
             document.getElementById("page_modal_chat").style.display = "flex";
           }}>+</button>
