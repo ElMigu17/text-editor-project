@@ -3,6 +3,7 @@ import parse from "html-react-parser";
 import './Mostrador.css';
 import { Link } from 'react-router-dom';
 import BackComunication from '../basico/ComunicationBack.js';
+import contrast from "get-contrast";
 
 function Mostrador(props) {
   const [chatsInfo, setChatsInfo] = useState("");
@@ -13,11 +14,11 @@ function Mostrador(props) {
   }, [])
 
   function getContrastYIQ(hexcolor){
-    var r = parseInt(hexcolor.substr(0,2),16);
-    var g = parseInt(hexcolor.substr(2,2),16);
-    var b = parseInt(hexcolor.substr(4,2),16);
-    var yiq = ((r*299)+(g*587)+(b*114))/1000;
-    return (yiq >= 128) ? 'black' : 'white';
+    if(hexcolor === "#00000000"){
+      return 'black'
+    }
+    console.log(hexcolor, "#ffffff")
+    return contrast.isAccessible(hexcolor, "#000000") ? 'black' : 'white';
   }
   const chat_in_divs = [];
   
