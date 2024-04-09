@@ -18,14 +18,16 @@ function Navbar() {
         <li>
           <Link to="/">Home</Link>
         </li>
-        <li class="li-from-button">
+        <li className="li-from-button">
           <button onClick={() => {
             document.getElementById("page_modal_chat").style.display = "flex";
           }}>+</button>
         </li>
       </ul>
       <div id="page_modal_chat">
-				<div id="back_modal_criar_chat"></div>
+				<div id="back_modal_criar_chat" onClick={() =>{
+          document.getElementById("page_modal_chat").style.display = "none";
+        }}></div>
         <div id="modal_criar_chat">
 					<div id="modal_criar_chat_input">
 						Color:  
@@ -34,7 +36,7 @@ function Navbar() {
 					<Link 
             id="modal_criar_chat_button" 
             to="/editor"  
-            state={null} 
+            state={ null}
             onClick={createChat}
           > Create </Link>
         </div>
