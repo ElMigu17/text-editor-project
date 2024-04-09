@@ -17,13 +17,13 @@ function Mostrador(props) {
     if(hexcolor === "#00000000"){
       return 'black'
     }
-    console.log(hexcolor, "#ffffff")
     return contrast.isAccessible(hexcolor, "#000000") ? 'black' : 'white';
   }
   const chat_in_divs = [];
   
   Object.keys(chatsInfo).forEach((step) => {
     let chat_info = chatsInfo[step];
+  
     chat_in_divs.push(
       <Link key={chat_info['id']}
         to={{pathname:"/editor"}} state={chat_info['id']}>
