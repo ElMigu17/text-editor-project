@@ -61,6 +61,21 @@
 
 }
 
+#posTagButton{
+  position: absolute;
+  left: 5%;
+  background-color: #A9FFDA;
+  button{
+    padding: 5px 9px;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+
+  }
+
+}
+
+
 .posDate{
   width: 100%;
   display: flex;
@@ -74,6 +89,71 @@
   border: 5px solid #95E6C8;
   border-radius: 6px;
 
+}
+#page_modal_tag{
+  font-family: "Roboto-Regular";
+  display: none;
+  opacity: 1;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  right: 0;  
+  justify-content: center;
+  align-items: center;
+  z-index: 80;
+}
+#back_modal_criar_tag{
+  opacity: 0.4;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;  
+  background-color: black;
+  z-index: 90;
+  justify-content: center;
+  align-items: center;
+}
+
+#modal_adicionar_tag{
+  background-color: #A9FFDA;
+  opacity: 1;
+  z-index: 100;
+  padding: 7px 20px;
+  color: black;
+  width: 250px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction:column;
+
+}
+
+#modal_criar_tag_input{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  width: 100%;
+  
+}
+#modal_criar_tag_button{
+  width: fit-content;
+}
+
+#modal_criar_tag{
+  display: none;
+  flex-direction: column;
+}
+
+.select_tag_position{
+  width: 100%;
+  display: flex;
+  justify-content:space-between;
+  padding: 5px 0;
+}
+
+.tag_style{
+  
 }
 
 @media screen and (max-width: 600px) {
@@ -94,4 +174,17 @@
   #posSendButton{
     right: 1%;
   }
+}
+
+#showing_tags{
+  display: none;
+  position: absolute;
+  top: -110px;
+  background-color: #A9FFDA;
+  height: 90px;
+}
+
+.triangleTag{
+  position: absolute;
+  top: 90px;
 }

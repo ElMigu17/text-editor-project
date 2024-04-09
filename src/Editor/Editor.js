@@ -8,11 +8,15 @@ import BackComunication from '../basico/ComunicationBack.js';
 
 function Editor() { 
   
-  const definitivo = [];
-  const [chatInfo, setChatInfo] = useState("");
+  const tagsHtml = [];
+  const tagsHtmlAvailable = [];
+  const [tags, setTags] = useState([]);
+  const [tagsAvailable, setTagsAvailable] = useState([]);
   const [idText, setIdText] = useState("");
   const [lastDate, setLastDate] = useState({}); 
   const location = useLocation();
+  const [messagens, setMessagens] = useState([]);
+
 
   function getTextareaText(){
     let textarea = document.getElementsByTagName("textarea")[0];
@@ -29,85 +33,229 @@ function Editor() {
   
   function addNewMessage(value, date){
     let kay = new Date(date);
+    console.log(date)
     if(lastDate.lastDay !== kay.getDate() || lastDate.lastMonth !== kay.getMonth() || lastDate.lastYear !== kay.getFullYear()){
       
+      setLastDate({lastDay:kay.getDate(),lastMonth:kay.getMonth(),lastYear:kay.getFullYear()})
+
       lastDate.lastDay = kay.getDate(); 
       lastDate.lastMonth = kay.getMonth(); 
       lastDate.lastYear = kay.getFullYear();
   
-      return( <div key={date}> <div className='posDate'> <p className='dateOrganization'>{lastDate.lastDay}/{lastDate.lastMonth+1}/{lastDate.lastYear}</p> </div> <MsgBox text={value}></MsgBox> </div>);
+      return( <div key={date}> 
+        <div className='posDate'> 
+          <p className='dateOrganization'>{kay.getDate()}/{kay.getMonth()+1}/{kay.getFullYear()}</p> 
+        </div> 
+        <MsgBox text={value}></MsgBox> 
+      </div>);
     }
     else{
       return( <MsgBox key={date} text={value}></MsgBox>); 
     }
   }
 
+  function addNewTag(name, color){
+    console.log(name);
+    return( <div key={name} style={{backgroundColor: color}} className='tag_style'>{name}</div>); 
+  }
+
+  function addNewTagOption(name){
+    console.log(name);
+    return( <option ket={name} value={name}>{name}</option>); 
+  }
+
   function createNewMessage(){ 
     let newMsg = getTextareaText(); 
+    
     if(newMsg !== ""){
-      BackComunication.postMessage(newMsg, idText).then( (res1) => {
+      BackComunication.postMessage(newMsg, idText).then( () => {
         BackComunication.getOneChatComplete(idText).then( (res) =>{
-          setChatInfo(res);
+          let message = res[res.length-1]
+          setMessagens((prevMessages) => [ ...prevMessages, addNewMessage(message['text'], parseInt(message['created_at']))]);
+
         });
       });
     }
+    
   }
 
+  
+  function createNewTag(){ 
+    let tagColor = document.getElementById("color_for_tag").value;
+    let tagName = document.getElementById("name_for_tag").value; 
+
+    BackComunication.postTag(tagColor, tagName, idText).then(() => {
+      BackComunication.getTagsByChat(idText).then( (res) =>{
+        setTags(res);
+      });
+    })
+  }
+  
+
   useEffect(() => {
-    
     setLastDate({
       lastDay: -1,
       lastMonth: -1,
       lastYear: -1 
     })
-    if(location.state === undefined || location.state === null){
-      BackComunication.getLastChatId().then((res)=>{
-        setIdText(res[0].id)
-      }).then(()=>{
+    const testededemente = async() => {
+      let chatInfoEffect = []
 
-        BackComunication.getOneChatComplete(idText).then( (res) =>{
-          setChatInfo(res);
+      if(!location.state){
+        await BackComunication.getLastChatId().then((res)=>{
+          setIdText(res[0].id)
+
+          BackComunication.getOneChatComplete(idText).then( (res) =>{
+            chatInfoEffect = res
+          });
+          
+        })
+      }
+      else{
+        setIdText(location.state)
+        await BackComunication.getOneChatComplete(location.state).then( (res) =>{
+          chatInfoEffect = res
+        });  
+      }
+
+      await BackComunication.getTagsByChat(idText).then( (tagsChatBD) =>{
+        BackComunication.getAllTags().then( (res) =>{   
+          let tags_by_name = {};
+          let tags_selecionadas = []
+
+          for(let i in tagsChatBD){
+            let tag = tagsChatBD[i];
+            tags_by_name[tag.name] = tag;
+          }
+          for(let i in res){
+            let tag = res[i];
+            console.log("tags_by_name[tag.name] ", tags_by_name[tag.name], tag )
+            if(tags_by_name[tag.name] === undefined){
+              tags_selecionadas.push(tag)
+            }
+          }
+          console.log(tagsChatBD, tags_selecionadas)
+    
+          setTags(tagsChatBD);
+          setTagsAvailable(tags_selecionadas);
         });
-      })
-    }
-    else{
-      setIdText(location.state)
-      BackComunication.getOneChatComplete(location.state).then( (res) =>{
-        setChatInfo(res);
       });
-    }
 
-    window.addEventListener('load', updateTextarea())
-    return () => { 
-      window.removeEventListener('load', updateTextarea());
-    };
+      if(chatInfoEffect.length > 0 && chatInfoEffect[0]['text'] != null){
+        console.log("chatInfoEffect", chatInfoEffect)
+        Object.keys(chatInfoEffect).forEach(function(step) {
+          let message = chatInfoEffect[step];
+          setMessagens((prevMessages) => [ ...prevMessages, addNewMessage(message['text'], parseInt(message['created_at']))]);
+        });
+      }
+
+      window.addEventListener('load', updateTextarea())
+      
+      return () => { 
+        window.removeEventListener('load', updateTextarea());
+      };
+
+    }
+    testededemente();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
-  
-  if(chatInfo.length > 0 && chatInfo[0]['text'] != null){
-    Object.keys(chatInfo).forEach(function(step) {
-      let stepChat = chatInfo[step];
-      definitivo.push(addNewMessage(stepChat['text'], parseInt(stepChat['created_at'])));
+
+  if(tags.length > 0 && tags[0]['name'] != null){
+    Object.keys(tags).forEach(function(step) {
+      let tag = tags[step];
+      tagsHtml.push(addNewTag(tag['name'], tag['color']));
     });
   }
 
+  if(tagsAvailable.length > 0 && tagsAvailable[0]['name'] != null){
+    Object.keys(tagsAvailable).forEach(function(step) {
+      let tag = tagsAvailable[step];
+      tagsHtmlAvailable.push(addNewTagOption(tag['name']));
+    });
+  }
 
   return(
     <div id='todoEditor'>
       <div id='chat'>
         <div id='msgs'>
-          {definitivo}
+          {messagens}
         </div>
         <div id='posText'>
-          <textarea placeholder='Text' id='textBox'>
+          
+          <div id='posTagButton'>
+            <div id='showing_tags'>  
+              {tagsHtml}
+                
+              <svg className='triangleTag' width="40" height="20">
+                <polygon points="0,0, 18,0, 0,20" fill='#A9FFDA'/>
+              </svg>
+            </div>
+            <button onClick={() => {
+              document.getElementById("page_modal_tag").style.display = "flex";
+            }}
+            onMouseEnter={() =>{
+              document.getElementById("showing_tags").style.display = "flex";
+            }}
 
-          </textarea>
+            onMouseOut={() =>{
+              document.getElementById("showing_tags").style.display = "none";
+            }}
+            >
+              Tags
+            </button>
+          </div>
+
+          <textarea placeholder='Text' id='textBox'></textarea>
+
           <div id='posSendButton'>
             <button onClick={ createNewMessage }>
               <img src={arrow} alt="seta de envio">
               </img>
             </button>
+          </div>
+
+        </div>
+      </div>
+
+      
+      <div id="page_modal_tag">
+				<div id="back_modal_criar_tag" onClick={() =>{
+          document.getElementById("page_modal_tag").style.display = "none";
+          
+          document.getElementById('modal_criar_tag').style.display = 'none';
+          document.getElementsByClassName('select_tag_position')[0].style.display = 'flex';
+        }}></div>
+        
+        <div id="modal_adicionar_tag">
+          <div className='select_tag_position'>
+            <select name="select_tag" id="select_tag">
+              {tagsHtmlAvailable}
+            </select>
+
+            <button onClick={() => {
+              document.getElementById('modal_criar_tag').style.display = 'flex';
+              document.getElementsByClassName('select_tag_position')[0].style.display = 'none';
+              
+            }} >
+              Create new tag
+            </button>
+          </div>
+          <div id="modal_criar_tag">
+            <div id="modal_criar_tag_input">
+              Color:  
+              <input id="color_for_tag"></input>
+            </div>
+            <div id="modal_criar_tag_input">
+              Name:  
+              <input id="name_for_tag"></input>
+            </div>
+            <button 
+              id="modal_criar_tag_button" 
+              to="/editor"  
+              state={null} 
+              onClick={createNewTag}
+            > Create </button>
           </div>
         </div>
       </div>
