@@ -8,6 +8,8 @@ router.get('/allChatComplete', chatRoutes.chatAllComplete)
 router.get('/allChatWithLastMessage', chatRoutes.chatAllWithLastMessage)
 router.get('/getLastChatId', chatRoutes.getLastChatId)
 router.post('/oneChatComplete', chatRoutes.oneChatComplete) 
+router.post('/getTagsByChat', chatRoutes.getTagsByChat)
+router.post('/getAllTags', chatRoutes.getAllTags)
 
 router.post('/chat', chatRoutes.chatCreate)
 router.post('/tag', chatRoutes.tagCreate)

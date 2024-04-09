@@ -42,6 +42,40 @@ class ClassBackComunication {
 
     };
 
+    
+    async getTagsByChat(chatId){
+        return $.ajax(this.baseUrl + "/getTagsByChat",{
+            type: "POST",
+            dataType: 'json', 
+            contentType: 'application/json', 
+            data: JSON.stringify({chatId: chatId}), 
+            success: function(response){ 
+                return response; 
+            },
+            error: function(response){
+                console.log("getTagsByChat DEU RUIM FI");
+                return response;
+            }  
+        })
+    };
+
+    async getAllTags(){
+        return $.ajax(this.baseUrl + "/getAllTags",{
+            type: "POST",
+            dataType: 'json', 
+            contentType: 'application/json', 
+            success: function(response){ 
+                console.log(response)
+                return response; 
+            },
+            error: function(response){
+                console.log(response)
+                console.log("getAllTags DEU RUIM FI");
+                return response;
+            }  
+        })
+    };
+
     async postMessage(text, chatId){
         return $.ajax(this.baseUrl + "/message",{
             type: "POST",
@@ -76,8 +110,23 @@ class ClassBackComunication {
         })
     };
 
-    async getLastChatId(){
+    async postTag(color, name, chatId){
+        return $.ajax(this.baseUrl + "/tag",{
+            type: "POST",
+            dataType: 'json', 
+            contentType: 'application/json', 
+            data: JSON.stringify({color: color, name: name, chatId: chatId}), 
+            success: function(response){ 
+                return response; 
+            },
+            error: function(response){
+                console.log("postTag DEU RUIM FI");
+                return response;
+            }
+        })
+    };
 
+    async getLastChatId(){
         return $.ajax(this.baseUrl + "/getLastChatId",{
             type: "GET",
             dataType: 'json',
