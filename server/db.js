@@ -15,7 +15,7 @@ knex.schema.hasTable('tag')
   if (!exists) {
     return knex.schema.createTable('tag', (table)  => {
       table.increments('id').primary();
-      table.string('name').notNullable();
+      table.string('name').notNullable().unique();
       table.string('color').notNullable();
       table.integer('created_at').notNullable();
       table.integer('updated_at').notNullable();
@@ -94,9 +94,9 @@ knex.schema.hasTable('tag_chat')
     return knex.schema.createTable('tag_chat', function (table) {
       table.primary(['tagId', 'chatId']);
       table.integer('tagId');
-      table.foreign('tagId').references('id').inTable('tag')
+      table.foreign('tagId').references('id').inTable('tag').onDelete('CASCADE');
       table.integer('chatId');
-      table.foreign('chatId').references('id').inTable('chat');
+      table.foreign('chatId').references('id').inTable('chat').onDelete('CASCADE');
     })
     .then(() => {
       console.log('Table \'tag_chat\' created')
