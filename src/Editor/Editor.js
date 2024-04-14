@@ -4,10 +4,10 @@ import MsgBox from './MsgBox';
 import arrow from "../assets/arrow.png";
 import { useLocation } from 'react-router-dom';
 import BackComunication from '../basico/ComunicationBack.js';
-
+import utilFunctions from '../basico/Util.js'
 
 function Editor() { 
-  
+  const uF = new utilFunctions();
   const tagsHtml = [];
   const tagsHtmlAvailable = [];
   const [tags, setTags] = useState([]);
@@ -56,12 +56,11 @@ function Editor() {
 
   function addNewTag(name, color){
     console.log(name);
-    return( <div key={name} style={{backgroundColor: color}} className='tag_style'>{name}</div>); 
+    return( <div key={name} style={{backgroundColor: color, color: uF.getContrastYIQ(color)}} className='tag_style'>{name}</div>); 
   }
 
-  function addNewTagOption(name){
-    console.log(name);
-    return( <option ket={name} value={name}>{name}</option>); 
+  function addNewTagOption(id, name){
+    return( <option ket={id} value={id}>{name}</option>); 
   }
 
   function createNewMessage(){ 
@@ -90,7 +89,39 @@ function Editor() {
       });
     })
   }
+
+  function closeTagEditor(){
+      
+    document.getElementById("page_modal_tag").style.display = "none";
+          
+    document.getElementById('modal_criar_tag').style.display = 'none';
+    document.getElementsByClassName('select_tag_position')[0].style.display = 'flex';
+  }
   
+  async function getTagsData(){
+    await BackComunication.getTagsByChat(location.state).then( (tagsChatBD) =>{
+      BackComunication.getAllTags().then( (res) =>{   
+
+        let tags_by_name = {};
+        let tags_selecionadas = []
+
+        for(let i in tagsChatBD){
+          let tag = tagsChatBD[i];
+          tags_by_name[tag.name] = tag;
+        }
+        for(let i in res){
+          let tag = res[i];
+          if(tags_by_name[tag.name] === undefined){
+            tags_selecionadas.push(tag)
+          }
+        }
+        console.log(tagsChatBD, tags_selecionadas)
+  
+        setTags(tagsChatBD);
+        setTagsAvailable(tags_selecionadas);
+      });
+    });
+  }
 
   useEffect(() => {
     setLastDate({
@@ -104,7 +135,7 @@ function Editor() {
       if(!location.state){
         await BackComunication.getLastChatId().then((res)=>{
           setIdText(res[0].id)
-
+          getTagsData();
           BackComunication.getOneChatComplete(idText).then( (res) =>{
             chatInfoEffect = res
           });
@@ -114,32 +145,12 @@ function Editor() {
       else{
         setIdText(location.state)
         await BackComunication.getOneChatComplete(location.state).then( (res) =>{
+          getTagsData();
           chatInfoEffect = res
         });  
       }
 
-      await BackComunication.getTagsByChat(idText).then( (tagsChatBD) =>{
-        BackComunication.getAllTags().then( (res) =>{   
-          let tags_by_name = {};
-          let tags_selecionadas = []
 
-          for(let i in tagsChatBD){
-            let tag = tagsChatBD[i];
-            tags_by_name[tag.name] = tag;
-          }
-          for(let i in res){
-            let tag = res[i];
-            console.log("tags_by_name[tag.name] ", tags_by_name[tag.name], tag )
-            if(tags_by_name[tag.name] === undefined){
-              tags_selecionadas.push(tag)
-            }
-          }
-          console.log(tagsChatBD, tags_selecionadas)
-    
-          setTags(tagsChatBD);
-          setTagsAvailable(tags_selecionadas);
-        });
-      });
 
       if(chatInfoEffect.length > 0 && chatInfoEffect[0]['text'] != null){
         console.log("chatInfoEffect", chatInfoEffect)
@@ -171,9 +182,9 @@ function Editor() {
   if(tagsAvailable.length > 0 && tagsAvailable[0]['name'] != null){
     Object.keys(tagsAvailable).forEach(function(step) {
       let tag = tagsAvailable[step];
-      tagsHtmlAvailable.push(addNewTagOption(tag['name']));
+      tagsHtmlAvailable.push(addNewTagOption(tag.id, tag['name']));
     });
-  }
+  };
 
   return(
     <div id='todoEditor'>
@@ -185,8 +196,9 @@ function Editor() {
           
           <div id='posTagButton'>
             <div id='showing_tags'>  
-              {tagsHtml}
-                
+              <div id='organizacao_tags'>
+                {tagsHtml}
+              </div>
               <svg className='triangleTag' width="40" height="20">
                 <polygon points="0,0, 18,0, 0,20" fill='#A9FFDA'/>
               </svg>
@@ -220,26 +232,34 @@ function Editor() {
 
       
       <div id="page_modal_tag">
-				<div id="back_modal_criar_tag" onClick={() =>{
-          document.getElementById("page_modal_tag").style.display = "none";
-          
-          document.getElementById('modal_criar_tag').style.display = 'none';
-          document.getElementsByClassName('select_tag_position')[0].style.display = 'flex';
-        }}></div>
+				<div id="back_modal_criar_tag" 
+          onClick={closeTagEditor}></div>
         
         <div id="modal_adicionar_tag">
           <div className='select_tag_position'>
             <select name="select_tag" id="select_tag">
               {tagsHtmlAvailable}
             </select>
+            <div>
+              <button onClick={() => {
+                var e = document.getElementById("select_tag");
+                var value = e.value;
+                BackComunication.postTagChatLink(value, idText);
+                closeTagEditor();
+                }} >
+                Add selected tag
+              </button>
 
-            <button onClick={() => {
-              document.getElementById('modal_criar_tag').style.display = 'flex';
-              document.getElementsByClassName('select_tag_position')[0].style.display = 'none';
-              
-            }} >
-              Create new tag
-            </button>
+              <button onClick={() => {
+                document.getElementById('modal_criar_tag').style.display = 'flex';
+                document.getElementsByClassName('select_tag_position')[0].style.display = 'none';
+                
+              }} >
+                Create new tag
+              </button>
+            </div>
+
+
           </div>
           <div id="modal_criar_tag">
             <div id="modal_criar_tag_input">

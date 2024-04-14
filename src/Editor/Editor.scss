@@ -153,7 +153,28 @@
 }
 
 .tag_style{
-  
+  margin: 2px 3px;
+  padding: 2px 5px;
+  height: fit-content;
+}
+
+#showing_tags{
+  display: none;
+  position: absolute;
+  top: -110px;
+  background-color: #A9FFDA;
+  height: 90px;
+  width: 200px;
+}
+
+#organizacao_tags{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:space-around;
+  align-content: center;
+
+  width: inherit;
+  margin: 10px;
 }
 
 @media screen and (max-width: 600px) {
@@ -176,13 +197,6 @@
   }
 }
 
-#showing_tags{
-  display: none;
-  position: absolute;
-  top: -110px;
-  background-color: #A9FFDA;
-  height: 90px;
-}
 
 .triangleTag{
   position: absolute;
