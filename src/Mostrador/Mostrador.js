@@ -3,9 +3,10 @@ import parse from "html-react-parser";
 import './Mostrador.css';
 import { Link } from 'react-router-dom';
 import BackComunication from '../basico/ComunicationBack.js';
-import contrast from "get-contrast";
+import utilFunctions from '../basico/Util.js'
 
 function Mostrador(props) {
+  const uF = new utilFunctions();
   const [chatsInfo, setChatsInfo] = useState("");
   useEffect(() => {
     BackComunication.getChatWithLastMessage().then( (res) =>{
@@ -13,12 +14,6 @@ function Mostrador(props) {
     });
   }, [])
 
-  function getContrastYIQ(hexcolor){
-    if(hexcolor === "#00000000"){
-      return 'black'
-    }
-    return contrast.isAccessible(hexcolor, "#000000") ? 'black' : 'white';
-  }
   const chat_in_divs = [];
   
   Object.keys(chatsInfo).forEach((step) => {
@@ -27,7 +22,7 @@ function Mostrador(props) {
     chat_in_divs.push(
       <Link key={chat_info['id']}
         to={{pathname:"/editor"}} state={chat_info['id']}>
-        <p  className='divTextCaracteristics' style={{color: getContrastYIQ(chat_info["color"]), backgroundColor: chat_info["color"]}}>
+        <p  className='divTextCaracteristics' style={{color: uF.getContrastYIQ(chat_info["color"]), backgroundColor: chat_info["color"]}}>
           {parse(chat_info["text"])}
         </p>
       </Link>
