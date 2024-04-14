@@ -19,13 +19,11 @@ class ClassBackComunication {
                 console.log("getChatWithLastMessage DEU RUIM FI");
                 return response;
             }
-            
         })
-
     };
 
     async getOneChatComplete(chatId){
-        return $.ajax(this.baseUrl + "/oneChatComplete",{
+        return $.ajax(this.baseUrl + "oneChatComplete",{
             type: "POST",
             dataType: 'json', 
             contentType: 'application/json', 
@@ -37,14 +35,12 @@ class ClassBackComunication {
                 console.log("getOneChatComplete DEU RUIM FI");
                 return response;
             }
-            
         })
-
     };
 
     
     async getTagsByChat(chatId){
-        return $.ajax(this.baseUrl + "/getTagsByChat",{
+        return $.ajax(this.baseUrl + "getTagsByChat",{
             type: "POST",
             dataType: 'json', 
             contentType: 'application/json', 
@@ -60,16 +56,14 @@ class ClassBackComunication {
     };
 
     async getAllTags(){
-        return $.ajax(this.baseUrl + "/getAllTags",{
+        return $.ajax(this.baseUrl + "getAllTags",{
             type: "POST",
             dataType: 'json', 
             contentType: 'application/json', 
             success: function(response){ 
-                console.log(response)
                 return response; 
             },
             error: function(response){
-                console.log(response)
                 console.log("getAllTags DEU RUIM FI");
                 return response;
             }  
@@ -77,7 +71,7 @@ class ClassBackComunication {
     };
 
     async postMessage(text, chatId){
-        return $.ajax(this.baseUrl + "/message",{
+        return $.ajax(this.baseUrl + "message",{
             type: "POST",
             dataType: 'json', 
             contentType: 'application/json', 
@@ -89,13 +83,11 @@ class ClassBackComunication {
                 console.log("postMessage DEU RUIM FI");
                 return response;
             }
-            
         })
-
     };
 
     async postChat(color){
-        return $.ajax(this.baseUrl + "/chat",{
+        return $.ajax(this.baseUrl + "chat",{
             type: "POST",
             dataType: 'json', 
             contentType: 'application/json', 
@@ -111,7 +103,7 @@ class ClassBackComunication {
     };
 
     async postTag(color, name, chatId){
-        return $.ajax(this.baseUrl + "/tag",{
+        return $.ajax(this.baseUrl + "tag",{
             type: "POST",
             dataType: 'json', 
             contentType: 'application/json', 
@@ -127,7 +119,7 @@ class ClassBackComunication {
     };
 
     async postTagChatLink(tag_id, chat_id){
-        return $.ajax(this.baseUrl + "/tagChatLink",{
+        return $.ajax(this.baseUrl + "tagChatLink",{
             type: "POST",
             dataType: 'json', 
             contentType: 'application/json', 
@@ -143,7 +135,7 @@ class ClassBackComunication {
     };
 
     async getLastChatId(){
-        return $.ajax(this.baseUrl + "/getLastChatId",{
+        return $.ajax(this.baseUrl + "getLastChatId",{
             type: "GET",
             dataType: 'json',
             contentType: 'application/json',
@@ -154,9 +146,7 @@ class ClassBackComunication {
                 console.log("getLastChatId DEU RUIM FI");
                 return response;
             }
-            
         })
-
     };
 }
 
