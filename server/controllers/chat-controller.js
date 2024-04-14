@@ -76,7 +76,7 @@ exports.chatAllWithLastMessage = async (req, res) => {
         novaTag.tagName = chat.tagName;
         dataReorganized[id].tag.push(novaTag);
       }
-      
+
       res.json(Object.values(dataReorganized))
     })
     .catch(err => {
@@ -100,7 +100,7 @@ exports.oneChatComplete = async (req, res) => {
 
 exports.getTagsByChat = async (req, res) => {
   knex
-    .select('chat.*', 'tag.color as tagColor', 'tag.name as tagName') 
+    .select('chat.*', 'tag.color as tagColor', 'tag.name') 
     .from('chat')
     .leftJoin('tag_chat', 'tag_chat.chatId', 'chat.id')
     .leftJoin('tag', 'tag_chat.tagId', 'tag.id')
@@ -208,6 +208,20 @@ exports.messageCreate = async (req, res) => {
     })
     .then(() => {
       res.json({ message: `Message created.` })
+    })
+    .catch(err => {
+      res.json({ message: `There was an error creating chat: ${err}` })
+    })
+}
+
+exports.tagChatLinkCreate = async (req, res) => { 
+  knex('tag_chat')
+    .insert({
+      'tagId': req.body.tagId,
+      'chatId': req.body.chatId
+    })
+    .then(() => {
+      res.json({ message: `tag_chat created.` })
     })
     .catch(err => {
       res.json({ message: `There was an error creating chat: ${err}` })

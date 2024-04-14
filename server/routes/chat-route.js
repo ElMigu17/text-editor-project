@@ -13,6 +13,7 @@ router.post('/getAllTags', chatRoutes.getAllTags)
 
 router.post('/chat', chatRoutes.chatCreate)
 router.post('/tag', chatRoutes.tagCreate)
+router.post('/tagChatLink', chatRoutes.tagChatLinkCreate)
 router.post('/message', chatRoutes.messageCreate) 
 
 router.put('/deleteChat', chatRoutes.chatDelete)

@@ -126,6 +126,22 @@ class ClassBackComunication {
         })
     };
 
+    async postTagChatLink(tag_id, chat_id){
+        return $.ajax(this.baseUrl + "/tagChatLink",{
+            type: "POST",
+            dataType: 'json', 
+            contentType: 'application/json', 
+            data: JSON.stringify({tagId: tag_id, chatId: chat_id}), 
+            success: function(response){ 
+                return response; 
+            },
+            error: function(response){
+                console.log("postTagChatLink DEU RUIM FI");
+                return response;
+            }
+        })
+    };
+
     async getLastChatId(){
         return $.ajax(this.baseUrl + "/getLastChatId",{
             type: "GET",
