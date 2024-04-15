@@ -148,6 +148,21 @@ class ClassBackComunication {
             }
         })
     };
+    async tagChatLinkDelete(tag_id, chat_id){
+        return $.ajax(this.baseUrl + "tagChatLinkDelete",{
+            type: "PUT",
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({tagId: tag_id, chatId: chat_id}), 
+            success: function(response){
+                return response;
+            },
+            error: function(response){
+                console.log("tagChatLinkDelete DEU RUIM FI", tag_id, chat_id);
+                return response;
+            }
+        })
+    };
 }
 
 const BackComunication = new ClassBackComunication();

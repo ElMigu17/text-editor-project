@@ -100,7 +100,7 @@ exports.oneChatComplete = async (req, res) => {
 
 exports.getTagsByChat = async (req, res) => {
   knex
-    .select('chat.*', 'tag.color as tagColor', 'tag.name') 
+    .select('chat.*', 'tag.color as tagColor', 'tag.name', "tag.id as id") 
     .from('chat')
     .leftJoin('tag_chat', 'tag_chat.chatId', 'chat.id')
     .leftJoin('tag', 'tag_chat.tagId', 'tag.id')
@@ -262,4 +262,18 @@ exports.tagDelete = async (req, res) => {
     })
 }
 
+exports.tagChatLinkDelete = async (req, res) => { 
+  knex('tag_chat')
+    .where({
+      'tagId': req.body.tagId,
+      'chatId': req.body.chatId
+    })
+    .del()
+    .then(() => {
+      res.json({ message: `happened tagChatLinkDelete.` })
+    })
+    .catch(err => {
+      res.json({ message: `There was an error deleting tagChatLinkD: ${err}` })
+    })
+}
 

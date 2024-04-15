@@ -54,12 +54,25 @@ function Editor() {
     }
   }
 
-  function addNewTag(name, color){
-    console.log(name);
-    return( <div key={name} style={{backgroundColor: color, color: uF.getContrastYIQ(color)}} className='tag_style'>{name}</div>); 
+  function addNewTag(tag){
+    return( <div key={tag.name} 
+      style={{backgroundColor: tag.color, color: uF.getContrastYIQ(tag.color)}} 
+      className='tag_style'
+      >{tag.name}
+      <button className='minus-button'
+        onClick={() => {
+          BackComunication.tagChatLinkDelete(tag.id, idText).then(() => {
+            getTagsData();
+          });
+        }} 
+      >
+        -
+      </button>
+      </div>); 
   }
 
   function addNewTagOption(id, name){
+    console.log("aaaa", id, name)
     return( <option ket={id} value={id}>{name}</option>); 
   }
 
@@ -175,14 +188,15 @@ function Editor() {
   if(tags.length > 0 && tags[0]['name'] != null){
     Object.keys(tags).forEach(function(step) {
       let tag = tags[step];
-      tagsHtml.push(addNewTag(tag['name'], tag['color']));
+      tagsHtml.push(addNewTag(tag));
     });
   }
 
   if(tagsAvailable.length > 0 && tagsAvailable[0]['name'] != null){
     Object.keys(tagsAvailable).forEach(function(step) {
       let tag = tagsAvailable[step];
-      tagsHtmlAvailable.push(addNewTagOption(tag.id, tag['name']));
+      console.log()
+      tagsHtmlAvailable.push(addNewTagOption(tag.id, tag.name));
     });
   };
 
@@ -206,6 +220,7 @@ function Editor() {
             <button onClick={() => {
               document.getElementById("page_modal_tag").style.display = "flex";
             }}
+            id='add_tag_button'
             >
               Tags
             </button>
@@ -237,7 +252,10 @@ function Editor() {
               <button onClick={() => {
                 var e = document.getElementById("select_tag");
                 var value = e.value;
-                BackComunication.postTagChatLink(value, idText);
+                console.log(e)
+                BackComunication.postTagChatLink(value, idText).then(() =>{
+                  getTagsData();
+                });
                 closeTagEditor();
                 }} >
                 Add selected tag

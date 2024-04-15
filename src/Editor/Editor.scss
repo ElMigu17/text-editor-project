@@ -141,10 +141,15 @@
 }
 
 .tag_style{
-  margin: 2px 3px;
+  margin: 2px 7px;
   padding: 2px 5px;
   height: fit-content;
+  position: relative;
+  &:hover > .minus-button{
+    display: flex;
+  }
 }
+
 #showing_tags{
   display: none;
   position: absolute;
@@ -154,12 +159,11 @@
   width: 200px;
 }
 
-
 #posTagButton{
   position: absolute;
   left: 5%;
   background-color: #A9FFDA;
-  button{
+  #add_tag_button{
     padding: 5px 9px;
     background-color: transparent;
     border: 0;
@@ -170,7 +174,6 @@
     display: flex;
   }
 }
-
 
 #showing_tags:hover{
   display: flex;
@@ -185,6 +188,24 @@
   width: inherit;
   margin: 10px;
 }
+
+.minus-button{
+  display: none;
+  background-color: black;
+  color: white;
+  position: absolute;
+  right: -10px;
+  border: 0;
+  top: 0;
+  height: 100%;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+  &:hover{
+    display: flex;
+  }
+}
+
 
 @media screen and (max-width: 600px) {
   #todoEditor{

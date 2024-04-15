@@ -19,5 +19,6 @@ router.post('/message', chatRoutes.messageCreate)
 router.put('/deleteChat', chatRoutes.chatDelete)
 router.put('/deleteTag', chatRoutes.tagDelete)
 router.put('/deleteMessage', chatRoutes.messageDelete)
+router.put('/tagChatLinkDelete', chatRoutes.tagChatLinkDelete)
 
 module.exports = router
