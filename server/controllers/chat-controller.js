@@ -100,7 +100,7 @@ exports.oneChatComplete = async (req, res) => {
 
 exports.getTagsByChat = async (req, res) => {
   knex
-    .select('chat.*', 'tag.color as tagColor', 'tag.name', "tag.id as id") 
+    .select('chat.*', 'tag.color as color', 'tag.name', "tag.id as id") 
     .from('chat')
     .leftJoin('tag_chat', 'tag_chat.chatId', 'chat.id')
     .leftJoin('tag', 'tag_chat.tagId', 'tag.id')

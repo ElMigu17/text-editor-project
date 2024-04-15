@@ -33,7 +33,6 @@ function Editor() {
   
   function addNewMessage(value, date){
     let kay = new Date(date);
-    console.log(date)
     if(lastDate.lastDay !== kay.getDate() || lastDate.lastMonth !== kay.getMonth() || lastDate.lastYear !== kay.getFullYear()){
       
       setLastDate({lastDay:kay.getDate(),lastMonth:kay.getMonth(),lastYear:kay.getFullYear()})
@@ -56,7 +55,7 @@ function Editor() {
 
   function addNewTag(tag){
     return( <div key={tag.name} 
-      style={{backgroundColor: tag.color, color: uF.getContrastYIQ(tag.color)}} 
+      style={{backgroundColor: "#" + tag.color, color: uF.getContrastYIQ("#"+tag.color)}} 
       className='tag_style'
       >{tag.name}
       <button className='minus-button'
@@ -72,7 +71,6 @@ function Editor() {
   }
 
   function addNewTagOption(id, name){
-    console.log("aaaa", id, name)
     return( <option ket={id} value={id}>{name}</option>); 
   }
 
@@ -128,7 +126,6 @@ function Editor() {
             tags_selecionadas.push(tag)
           }
         }
-        console.log(tagsChatBD, tags_selecionadas)
   
         setTags(tagsChatBD);
         setTagsAvailable(tags_selecionadas);
@@ -166,7 +163,6 @@ function Editor() {
 
 
       if(chatInfoEffect.length > 0 && chatInfoEffect[0]['text'] != null){
-        console.log("chatInfoEffect", chatInfoEffect)
         Object.keys(chatInfoEffect).forEach(function(step) {
           let message = chatInfoEffect[step];
           setMessagens((prevMessages) => [ ...prevMessages, addNewMessage(message['text'], parseInt(message['created_at']))]);
@@ -195,7 +191,6 @@ function Editor() {
   if(tagsAvailable.length > 0 && tagsAvailable[0]['name'] != null){
     Object.keys(tagsAvailable).forEach(function(step) {
       let tag = tagsAvailable[step];
-      console.log()
       tagsHtmlAvailable.push(addNewTagOption(tag.id, tag.name));
     });
   };
@@ -252,7 +247,6 @@ function Editor() {
               <button onClick={() => {
                 var e = document.getElementById("select_tag");
                 var value = e.value;
-                console.log(e)
                 BackComunication.postTagChatLink(value, idText).then(() =>{
                   getTagsData();
                 });
