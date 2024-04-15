@@ -176,18 +176,6 @@
   display: flex;
 }
 
-.hide {
-  display: none;
-}
-.hide:hover {
-  display: block;
-}
-    
-.myDIV:hover + .hide {
-  display: block;
-  color: red;
-}
-
 #organizacao_tags{
   display: flex;
   flex-wrap: wrap;
