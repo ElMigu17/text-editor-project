@@ -70,8 +70,8 @@ function Editor() {
       </div>); 
   }
 
-  function addNewTagOption(id, name){
-    return( <option ket={id} value={id}>{name}</option>); 
+  function addNewTagOption(tag){
+    return( <option style={{backgroundColor: "#" + tag.color }} key={tag.id} value={tag.id}>{tag.name}</option>); 
   }
 
   function createNewMessage(){ 
@@ -191,7 +191,7 @@ function Editor() {
   if(tagsAvailable.length > 0 && tagsAvailable[0]['name'] != null){
     Object.keys(tagsAvailable).forEach(function(step) {
       let tag = tagsAvailable[step];
-      tagsHtmlAvailable.push(addNewTagOption(tag.id, tag.name));
+      tagsHtmlAvailable.push(addNewTagOption(tag));
     });
   };
 
