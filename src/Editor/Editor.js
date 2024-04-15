@@ -206,13 +206,6 @@ function Editor() {
             <button onClick={() => {
               document.getElementById("page_modal_tag").style.display = "flex";
             }}
-            onMouseEnter={() =>{
-              document.getElementById("showing_tags").style.display = "flex";
-            }}
-
-            onMouseOut={() =>{
-              document.getElementById("showing_tags").style.display = "none";
-            }}
             >
               Tags
             </button>
