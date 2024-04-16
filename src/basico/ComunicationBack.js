@@ -163,6 +163,21 @@ class ClassBackComunication {
             }
         })
     };
+    async deleteChat( chat_id){
+        return $.ajax(this.baseUrl + "deleteChat",{
+            type: "PUT",
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({id: chat_id}), 
+            success: function(response){
+                return response;
+            },
+            error: function(response){
+                console.log("deleteChat DEU RUIM FI", chat_id);
+                return response;
+            }
+        })
+    };
 }
 
 const BackComunication = new ClassBackComunication();
