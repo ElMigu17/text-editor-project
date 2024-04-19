@@ -1,6 +1,7 @@
 const { group } = require('console')
 const knex = require('./../db')
 
+//#region getters
 exports.chatAllComplete = async (req, res) => {
   knex
     .select('chat.*', 'message.created_at as created_at', 'message.text', 'tag.color as tagColor', 'tag.name as tagName') 
@@ -21,11 +22,9 @@ exports.getAllTags = async (req, res) => {
     .select('*') 
     .from('tag')
     .then(userData => {
-      console.log(userData)
       res.json(userData)
     })
     .catch(err => {
-      console.log(err)
       res.json({ message: `There was an error retrieving chats: ${err}` })
     })
 } 
@@ -114,35 +113,36 @@ exports.getTagsByChat = async (req, res) => {
 } 
 
 exports.getLastTagId = async (req, res) => {
-  console.log("userData");
   knex
     .select('id') 
     .from('tag')
     .max('id')
     .then(userData => {
-      console.log("userData", userData)
       res.json(userData)
     })
     .catch(err => {
       res.json({ message: `There was an error retrieving tag: ${err}` })
     })
 } 
+//#endregion
 
-messagetLastTagId = async (req, res) => {
-  console.log("userData");
-  return knex
-    .select('id') 
-    .from('tag')
-    .max('id')
-    .then(userData => {
-      console.log("userData", userData)
-      return userData;
+exports.editChat = async (req, res) => {
+  const timestamp = Date.now();
+  knex('chat')
+    .where('id', req.body.id)
+    .update({
+      'color': req.body.color,
+      updated_at: timestamp
+    })
+    .then(() => {
+      res.json({ message: `Chat edited.` })
     })
     .catch(err => {
-      res.json({ message: `There was an error retrieving tagid: ${err}` })
+      res.json({ message: `There was an error editing chat: ${err}` })
     })
-} 
+}
 
+//#region create
 
 exports.chatCreate = async (req, res) => {
   const timestamp = Date.now();
@@ -172,7 +172,6 @@ exports.tagCreate = async (req, res) => {
     .then(() => {
       messagetLastTagId().then( (resTag) => {
 
-        console.log("resTag", resTag[0].id);
  
         knex('tag_chat')  
         .insert({ 
@@ -180,22 +179,32 @@ exports.tagCreate = async (req, res) => {
           tagId: resTag[0].id
         })
         .then(() => {
-          console.log({ message: `Tag_Chat conection created.` })
   
           res.json({ message: `Tag_Chat conection created.` })
         })
         .catch(err => {
-          console.log({ message: `There was an error creating Tag_Chat: ${err}` })
           res.json({ message: `There was an error creating Tag_Chat: ${err}` })
         })
       });
       
     })
     .catch(err => {
-      console.log({ message: `There was an error creating tag: ${err}` })
       res.json({ message: `There was an error creating tag: ${err}` })
     })
 }
+
+messagetLastTagId = async (req, res) => {
+  return knex
+    .select('id') 
+    .from('tag')
+    .max('id')
+    .then(userData => {
+      return userData;
+    })
+    .catch(err => {
+      res.json({ message: `There was an error retrieving tagid: ${err}` })
+    })
+} 
 
 exports.messageCreate = async (req, res) => { 
   const timestamp = Date.now();
@@ -228,6 +237,8 @@ exports.tagChatLinkCreate = async (req, res) => {
     })
 }
 
+
+//delete
 exports.chatDelete = async (req, res) => {
   knex('chat')
     .where('id', req.body.id) 

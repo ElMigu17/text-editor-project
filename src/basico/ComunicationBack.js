@@ -102,6 +102,22 @@ class ClassBackComunication {
         })
     };
 
+    async editChat(id, color){
+        return $.ajax(this.baseUrl + "editChat",{
+            type: "POST",
+            dataType: 'json', 
+            contentType: 'application/json', 
+            data: JSON.stringify({id: id, color: color}), 
+            success: function(response){ 
+                return response; 
+            },
+            error: function(response){
+                console.log("editChat DEU RUIM FI");
+                return response;
+            }
+        })
+    };
+
     async postTag(color, name, chatId){
         return $.ajax(this.baseUrl + "tag",{
             type: "POST",

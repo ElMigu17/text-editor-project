@@ -16,6 +16,8 @@ router.post('/tag', chatRoutes.tagCreate)
 router.post('/tagChatLink', chatRoutes.tagChatLinkCreate)
 router.post('/message', chatRoutes.messageCreate) 
 
+router.post('/editChat', chatRoutes.editChat)
+
 router.put('/deleteChat', chatRoutes.chatDelete)
 router.put('/deleteTag', chatRoutes.tagDelete)
 router.put('/deleteMessage', chatRoutes.messageDelete)
