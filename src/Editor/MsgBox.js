@@ -7,7 +7,7 @@ import './MsgBox.scss'
 function MsgBox(props) {
 
   return(
-    <div className='possMsg'>
+    <div className='pos_msg'>
         <div className='msg'>
 
             <p className='text'>

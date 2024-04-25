@@ -16,8 +16,8 @@ function Navbar() {
   
 
   return (
-    <nav>
-      <ul>
+    <nav id="navbar">
+      <ul id="navbar-ul">
         <li>
           <Link to="/">Home</Link>
         </li>
@@ -44,7 +44,7 @@ function Navbar() {
           </div>
 
 					<Link 
-            id="modal_criar_chat_button" 
+            id="modal-criar-chat-button" 
             className='create-button'
             to="/editor"  
             state={ null}

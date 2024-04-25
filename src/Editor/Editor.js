@@ -195,7 +195,7 @@ function Editor() {
   };
 
   return(
-    <div id='todoEditor'>
+    <div id='todo_editor'>
       <div id='chat'>
         <div id='msgs'>
           {messagens}

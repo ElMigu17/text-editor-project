@@ -2,15 +2,22 @@
     font-family: "Roboto-Regular";
     src: url("../assets/Roboto/Roboto-Regular.ttf") format("TrueType");
   }
-ul{
-    font-family: "Roboto-Regular";
+
+#navbar{
+    width: 100vw;
     display: flex;
     justify-content: flex-end;
     align-items:flex-start;
+    position: fixed;
+    z-index: 30;
+    height: fit-content;
+}
+#navbar-ul{
+    display: flex;
+    font-family: "Roboto-Regular";
     list-style-type: none;
     margin: 0;
     background-color: #A9FFDA;
-    height: 5vh;
 
     li{
         font-size: 16px;
@@ -82,19 +89,12 @@ ul{
 
 }
 
-#modal_criar_chat_input{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    width: 100%;
-    
-}
-#modal_criar_chat_button{
+#modal-criar-chat-button{
     width: fit-content;
 }
 
 @media screen and (max-width: 600px) {
-    ul{
+    #navbar-ul{
         position: absolute;
         z-index: 10;
         background-color: transparent;

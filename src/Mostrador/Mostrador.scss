@@ -2,7 +2,7 @@
 
 #todoMostrador{
   position: relative;
-  min-height: 100%;
+  min-height: 100vh;
 }
 
 #organizeDiv{
@@ -12,7 +12,7 @@
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  min-height: calc(95vh - 19.3333px - 14px - 80px);
+  min-height: calc(100vh - 33.33px - 80px);
 
   position: relative;
   z-index: 20;
@@ -58,7 +58,7 @@
   text-decoration: none;
 }
 
-.modal_criar_chat_button{
+.modal-criar-chat-button{
   text-decoration: none;
 
 }
@@ -178,14 +178,7 @@
   }
 }
 
-#modal_criar_chat_input{
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
-  width: 100%;
-  
-}
-#modal_criar_chat_button{
+#modal-criar-chat-button{
   width: fit-content;
 }
 

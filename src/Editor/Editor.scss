@@ -3,9 +3,9 @@
   src: url("../assets/Roboto/Roboto-Regular.ttf") format("TrueType");
 }
 
-#todoEditor{
+#todo_editor{
   padding: 40px;
-  height: calc(95vh - 80px);
+  height: calc(100vh - 20px);
   background-color: #A9FFDA;
 }
 
@@ -234,7 +234,7 @@
 
 
 @media screen and (max-width: 600px) {
-  #todoEditor{
+  #todo_editor{
     padding: 0px;
   }
   #msgs{

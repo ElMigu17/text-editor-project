@@ -6,25 +6,16 @@
 .triangle{
     position: relative;
 }
-.triangleShadow{
-    position: absolute;
-    top: 0;
-    width: 30px;
-    height: 30px;
-    background-color: white;
-}
 .msg{
     display: flex;
 }
 
-.possMsg{
+.pos_msg{
     display: flex;
     justify-content: flex-end;
     margin-top: 10px;
 
 }
-
-
 .text{
     background-color: #95E6C8;
     margin: 0;
