@@ -1,15 +1,18 @@
-import React, {useEffect, useState } from 'react';
+import React, {useEffect, useState, Fragment } from 'react';
 import parse from "html-react-parser";
 import './Mostrador.scss';
 import { Link } from 'react-router-dom';
 import BackComunication from '../basico/ComunicationBack.js';
 import utilFunctions from '../basico/Util.js'
-import EditorIcon from '../assets/edit.svg';
-
+import EditorIcon from '../assets/colorwheel.webp';
+import { ColorPicker, useColor } from "react-color-palette";
+import "react-color-palette/css";
 
 function Mostrador(props) {
   const uF = new utilFunctions();
   const [chatsInfo, setChatsInfo] = useState("");
+  const [color, setColor] = useColor("561ecb");
+
   async function getChatData(){
     BackComunication.getChatWithLastMessage().then( (res) =>{
       setChatsInfo(res);
@@ -46,7 +49,7 @@ function Mostrador(props) {
             >
               -
           </button>
-          <button className='minus-button-chat'
+          <button className='minus-button-chat colorwheel-icon'
           onClick={() => {
             document.getElementById("page_modal_chat_edit"+chat_info.id).style.display = "flex";
           }}
@@ -60,20 +63,25 @@ function Mostrador(props) {
             document.getElementById("page_modal_chat_edit"+chat_info.id).style.display = "none";
           }}></div>
           <div id="modal_criar_chat">
-            <div id="modal_criar_chat_input">
-              Color:  
-              <input pattern='^#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F].{0,1}$' id={"color_for_chat_edit"+chat_info.id}></input>
+            <div  className='position-colorwheel'>
+              <div id="colorpicker">
+               <ColorPicker 
+                hideAlpha={true} 
+                hideInput={["rgb", "hsv"]} 
+                color={color} 
+                onChange={setColor} />
+              </div>
             </div>
             
-            <button className='minus-button-chat'
+            <button className='create-button'
               onClick={ ()=>{
-                let color = document.getElementById("color_for_chat_edit"+chat_info.id).value;
-                BackComunication.editChat(chat_info.id, color).then((res) => {
+                BackComunication.editChat(chat_info.id, color.hex).then((res) => {
                   getChatData();
                 });
                 document.getElementById("page_modal_chat_edit"+chat_info.id).style.display = "none";
               }} 
-              > Create </button>
+              style={{backgroundColor: color.hex, color:  uF.getContrastYIQ(color.hex)}}
+              > Save </button>
           </div>
         </div>
 

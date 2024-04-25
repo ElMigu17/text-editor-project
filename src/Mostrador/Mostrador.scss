@@ -29,7 +29,9 @@
 .link-my-page{
   color: black;
 }
-
+.chat_link{
+  text-decoration: none;
+}
 
 .minus-button-chat{
   background-color: black;
@@ -53,6 +55,12 @@
   height: fit-content;
   margin: 0;
   box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+}
+
+.modal_criar_chat_button{
+  text-decoration: none;
+
 }
 
 .chat_link{
@@ -121,6 +129,53 @@
   align-items: flex-end;
   flex-direction:column;
 
+}
+
+.position-colorwheel{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+#colorpicker{
+  .rcp-body{
+    background-color: transparent;
+  }
+  .rcp-saturation{
+    border-radius: 10px;
+  }
+
+  .rcp{
+    background-color: transparent;
+  }
+  .rcp-field-input{
+    color: black;
+  }
+  .rcp-field-label, .rcp-field-input{
+    color: black;
+  }
+}
+
+.create-button{
+  
+  text-decoration: none;
+  color: white;
+  border: 0;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  z-index: 3;
+  padding: 3px 8px;
+  margin-right: 1px;
+  cursor: pointer;
+}
+
+.colorwheel-icon{
+  padding: 0;
+  img{
+    height: 14px;
+  }
 }
 
 #modal_criar_chat_input{

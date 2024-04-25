@@ -132,7 +132,6 @@ function Editor() {
       });
     });
   }
-
   useEffect(() => {
     setLastDate({
       lastDay: -1,
@@ -144,7 +143,7 @@ function Editor() {
 
       if(!location.state){
         await BackComunication.getLastChatId().then((res)=>{
-          setIdText(res[0].id)
+          setIdText(res[0].id);
           getTagsData();
           BackComunication.getOneChatComplete(idText).then( (res) =>{
             chatInfoEffect = res
