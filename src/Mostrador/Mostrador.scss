@@ -1,11 +1,11 @@
 
 
-#todoMostrador{
+#todo-mostrador{
   position: relative;
   min-height: 100vh;
 }
 
-#organizeDiv{
+#organize-div{
   background-color: #A9FFDA;
   padding: 40px;
   display: flex;
@@ -29,7 +29,7 @@
 .link-my-page{
   color: black;
 }
-.chat_link{
+.chat-link{
   text-decoration: none;
 }
 
@@ -47,7 +47,7 @@
   cursor: pointer;
 }
 
-.divTextCaracteristics{
+.div-text-caracteristics{
   font-family: "Roboto-Regular";
   font-size: 20px;
   padding: 3px;
@@ -63,12 +63,12 @@
 
 }
 
-.chat_link{
+.chat-link{
   position: relative;
   background-color: rgba(0, 0, 0, 0.75);
 }
 
-.position_chat_link{
+.position-chat-link{
   position: relative;
   margin-right: 50px;
   margin-top: 20px;
@@ -92,7 +92,7 @@
 
 
 
-.page_modal_chat_edit{
+.page-modal-chat-edit{
   font-family: "Roboto-Regular";
   display: none;
   opacity: 1;
@@ -105,7 +105,7 @@
   align-items: center;
   z-index: 80;
 }
-#back_modal_criar_chat{
+#back-modal-criar-chat{
   opacity: 0.4;
   width: 100vw;
   height: 100vh;
@@ -118,7 +118,7 @@
   align-items: center;
 }
 
-#modal_criar_chat{
+#modal-criar-chat{
   background-color: #A9FFDA;
   opacity: 1;
   z-index: 100;
@@ -193,7 +193,7 @@ input:invalid{
   border: 3px solid red;
 }
 @media screen and (max-width: 600px) {
-  .divTextCaracteristics{
+  .div-text-caracteristics{
     margin: 0;
     margin-bottom: 10px;
   }

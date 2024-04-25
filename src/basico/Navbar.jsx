@@ -28,10 +28,10 @@ function Navbar() {
         </li>
       </ul>
       <div id="page_modal_chat">
-				<div id="back_modal_criar_chat" onClick={() =>{
+				<div id="back-modal-criar-chat" onClick={() =>{
           document.getElementById("page_modal_chat").style.display = "none";
         }}></div>
-        <div id="modal_criar_chat">
+        <div id="modal-criar-chat">
           
           <div className='position-colorwheel'>
             <div id="colorpicker">

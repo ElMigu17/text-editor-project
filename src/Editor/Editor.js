@@ -27,7 +27,7 @@ function Editor() {
     setTimeout(() => textarea.style.height = "48px", 1);
   
     
-    setTimeout(() => document.getElementById("msgs").style.height = "calc(100% - " + document.getElementById("posText").offsetHeight.toString() + "px - 7px)", 1)
+    setTimeout(() => document.getElementById("msgs").style.height = "calc(100% - " + document.getElementById("pos-text").offsetHeight.toString() + "px - 7px)", 1)
     return text;
   }
   
@@ -42,8 +42,8 @@ function Editor() {
       lastDate.lastYear = kay.getFullYear();
   
       return( <div key={date}> 
-        <div className='posDate'> 
-          <p className='dateOrganization'>{kay.getDate()}/{kay.getMonth()+1}/{kay.getFullYear()}</p> 
+        <div className='pos-date'> 
+          <p className='date-organization'>{kay.getDate()}/{kay.getMonth()+1}/{kay.getFullYear()}</p> 
         </div> 
         <MsgBox text={value}></MsgBox> 
       </div>);
@@ -56,7 +56,7 @@ function Editor() {
   function addNewTag(tag){
     return( <div key={tag.name} 
       style={{backgroundColor: "#" + tag.color, color: uF.getContrastYIQ("#"+tag.color)}} 
-      className='tag_style'
+      className='tag-style'
       >{tag.name}
       <button className='minus-button'
         onClick={() => {
@@ -91,8 +91,8 @@ function Editor() {
 
   
   function createNewTag(){ 
-    let tagColor = document.getElementById("color_for_tag").value;
-    let tagName = document.getElementById("name_for_tag").value; 
+    let tagColor = document.getElementById("color-for-tag").value;
+    let tagName = document.getElementById("name-for-tag").value; 
 
     BackComunication.postTag(tagColor, tagName, idText).then(() => {
       BackComunication.getTagsByChat(idText).then( (res) =>{
@@ -103,10 +103,10 @@ function Editor() {
 
   function closeTagEditor(){
       
-    document.getElementById("page_modal_tag").style.display = "none";
+    document.getElementById("page-modal-tag").style.display = "none";
           
-    document.getElementById('modal_criar_tag').style.display = 'none';
-    document.getElementsByClassName('select_tag_position')[0].style.display = 'flex';
+    document.getElementById('modal-criar-tag').style.display = 'none';
+    document.getElementsByClassName('select-tag-position')[0].style.display = 'flex';
   }
   
   async function getTagsData(){
@@ -195,34 +195,34 @@ function Editor() {
   };
 
   return(
-    <div id='todo_editor'>
+    <div id='todo-editor'>
       <div id='chat'>
         <div id='msgs'>
           {messagens}
         </div>
-        <div id='posText'>
+        <div id='pos-text'>
           
-          <div id='posTagButton'>
-            <div id='showing_tags'>  
-              <div id='organizacao_tags'>
+          <div id='pos-tag-button'>
+            <div id='showing-tags'>  
+              <div id='organizacao-tags'>
                 {tagsHtml}
               </div>
-              <svg className='triangleTag' width="40" height="20">
+              <svg className='triangle-tag' width="40" height="20">
                 <polygon points="0,0, 18,0, 0,20" fill='#A9FFDA'/>
               </svg>
             </div>
             <button onClick={() => {
-              document.getElementById("page_modal_tag").style.display = "flex";
+              document.getElementById("page-modal-tag").style.display = "flex";
             }}
-            id='add_tag_button'
+            id='add-tag-button'
             >
               Tags
             </button>
           </div>
 
-          <textarea placeholder='Text' id='textBox'></textarea>
+          <textarea placeholder='Text' id='text-box'></textarea>
 
-          <div id='posSendButton'>
+          <div id='pos-send-button'>
             <button onClick={ createNewMessage }>
               <img src={arrow} alt="seta de envio">
               </img>
@@ -233,18 +233,18 @@ function Editor() {
       </div>
 
       
-      <div id="page_modal_tag">
-				<div id="back_modal_criar_tag" 
+      <div id="page-modal-tag">
+				<div id="back-modal-criar-tag" 
           onClick={closeTagEditor}></div>
         
-        <div id="modal_adicionar_tag">
-          <div className='select_tag_position'>
-            <select name="select_tag" id="select_tag">
+        <div id="modal-adicionar-tag">
+          <div className='select-tag-position'>
+            <select name="select-tag" id="select-tag">
               {tagsHtmlAvailable}
             </select>
             <div>
               <button onClick={() => {
-                var e = document.getElementById("select_tag");
+                var e = document.getElementById("select-tag");
                 var value = e.value;
                 BackComunication.postTagChatLink(value, idText).then(() =>{
                   getTagsData();
@@ -255,8 +255,8 @@ function Editor() {
               </button>
 
               <button onClick={() => {
-                document.getElementById('modal_criar_tag').style.display = 'flex';
-                document.getElementsByClassName('select_tag_position')[0].style.display = 'none';
+                document.getElementById('modal-criar-tag').style.display = 'flex';
+                document.getElementsByClassName('select-tag-position')[0].style.display = 'none';
                 
               }} >
                 Create new tag
@@ -265,17 +265,17 @@ function Editor() {
 
 
           </div>
-          <div id="modal_criar_tag">
-            <div id="modal_criar_tag_input">
+          <div id="modal-criar-tag">
+            <div id="modal-criar-tag-input">
               Color:  
-              <input id="color_for_tag"></input>
+              <input id="color-for-tag"></input>
             </div>
-            <div id="modal_criar_tag_input">
+            <div id="modal-criar-tag-input">
               Name:  
-              <input id="name_for_tag"></input>
+              <input id="name-for-tag"></input>
             </div>
             <button 
-              id="modal_criar_tag_button" 
+              id="modal-criar-tag-button" 
               to="/editor"  
               state={null} 
               onClick={createNewTag}

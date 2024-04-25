@@ -3,7 +3,7 @@
   src: url("../assets/Roboto/Roboto-Regular.ttf") format("TrueType");
 }
 
-#todo_editor{
+#todo-editor{
   padding: 40px;
   height: calc(100vh - 20px);
   background-color: #A9FFDA;
@@ -24,7 +24,7 @@
 
 }
 
-#posText{
+#pos-text{
   position: absolute;
   bottom: 0;
   background-color: #5E8D7C;
@@ -39,7 +39,7 @@
 
 }
 
-#textBox{
+#text-box{
   padding: 5px;
   background-color: #A9FFDA;
   border: 0;
@@ -49,7 +49,7 @@
   font-family: "Roboto-Regular";
 
 }
-#posSendButton{
+#pos-send-button{
   position: absolute;
   right: 5%;
   button{
@@ -62,14 +62,12 @@
 }
 
 
-
-
-.posDate{
+.pos-date{
   width: 100%;
   display: flex;
   justify-content: center;
 }
-.dateOrganization{
+.date-organization{
   width: fit-content;
   height: fit-content;
   font-family: "Roboto-Regular";
@@ -78,7 +76,7 @@
   border-radius: 6px;
 
 }
-#page_modal_tag{
+#page-modal-tag{
   font-family: "Roboto-Regular";
   display: none;
   opacity: 1;
@@ -91,7 +89,7 @@
   align-items: center;
   z-index: 80;
 }
-#back_modal_criar_tag{
+#back-modal-criar-tag{
   opacity: 0.4;
   width: 100vw;
   height: 100vh;
@@ -104,7 +102,7 @@
   align-items: center;
 }
 
-#modal_adicionar_tag{
+#modal-adicionar-tag{
   background-color: #A9FFDA;
   opacity: 1;
   z-index: 100;
@@ -117,23 +115,23 @@
 
 }
 
-#modal_criar_tag_input{
+#modal-criar-tag-input{
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
   width: 100%;
   
 }
-#modal_criar_tag_button{
+#modal-criar-tag-button{
   width: fit-content;
 }
 
-#modal_criar_tag{
+#modal-criar-tag{
   display: none;
   flex-direction: column;
 }
 
-.select_tag_position{
+.select-tag-position{
   width: 100%;
   display: flex;
   justify-content:space-between;
@@ -161,12 +159,12 @@
   }
 }
 
-#select_tag{
+#select-tag{
   height: fit-content;
   margin: 6px 0;
 }
 
-.tag_style{
+.tag-style{
   margin: 2px 7px;
   padding: 2px 5px;
   height: fit-content;
@@ -176,7 +174,7 @@
   }
 }
 
-#showing_tags{
+#showing-tags{
   display: none;
   position: absolute;
   top: -110px;
@@ -185,27 +183,27 @@
   width: 200px;
 }
 
-#posTagButton{
+#pos-tag-button{
   position: absolute;
   left: 5%;
   background-color: #A9FFDA;
-  #add_tag_button{
+  #add-tag-button{
     padding: 5px 9px;
     background-color: transparent;
     border: 0;
     cursor: pointer;
   }
 
-  &:hover > #showing_tags{
+  &:hover > #showing-tags{
     display: flex;
   }
 }
 
-#showing_tags:hover{
+#showing-tags:hover{
   display: flex;
 }
 
-#organizacao_tags{
+#organizacao-tags{
   display: flex;
   flex-wrap: wrap;
   justify-content:space-around;
@@ -234,27 +232,27 @@
 
 
 @media screen and (max-width: 600px) {
-  #todo_editor{
+  #todo-editor{
     padding: 0px;
   }
   #msgs{
     padding: 0px 5px 5px 5px;
     height: calc(100% - 100px);
   }
-  #textBox{
+  #text-box{
     width: 80vw;
     margin-right: 20px;
   }
   #chat{
     height: 100vh;
   }
-  #posSendButton{
+  #pos-send-button{
     right: 1%;
   }
 }
 
 
-.triangleTag{
+.triangle-tag{
   position: absolute;
   top: 90px;
 }

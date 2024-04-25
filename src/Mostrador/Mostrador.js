@@ -29,12 +29,12 @@ function Mostrador(props) {
   Object.keys(chatsInfo).forEach((step) => {
     let chat_info = chatsInfo[step];
     chat_in_divs.push(
-      <div className='position_chat_link'>
+      <div className='position-chat-link'>
         <Link key={chat_info.id}
           to={{pathname:"/editor"}}  
           state={chat_info.id}
-          className='chat_link'>
-          <p  className='divTextCaracteristics' 
+          className='chat-link'>
+          <p  className='div-text-caracteristics' 
             style={{color: uF.getContrastYIQ(chat_info.color), backgroundColor: chat_info.color}}>
             {parse(chat_info.text)}
           </p>
@@ -51,18 +51,18 @@ function Mostrador(props) {
           </button>
           <button className='minus-button-chat colorwheel-icon'
           onClick={() => {
-            document.getElementById("page_modal_chat_edit"+chat_info.id).style.display = "flex";
+            document.getElementById("page-modal-chat-edit"+chat_info.id).style.display = "flex";
           }}
             >
               <img src={EditorIcon}></img>
             </button>
           </div>
           
-        <div id={"page_modal_chat_edit" + chat_info.id} className='page_modal_chat_edit'>
-          <div id="back_modal_criar_chat" onClick={() =>{
-            document.getElementById("page_modal_chat_edit"+chat_info.id).style.display = "none";
+        <div id={"page-modal-chat-edit" + chat_info.id} className='page-modal-chat-edit'>
+          <div id="back-modal-criar-chat" onClick={() =>{
+            document.getElementById("page-modal-chat-edit"+chat_info.id).style.display = "none";
           }}></div>
-          <div id="modal_criar_chat">
+          <div id="modal-criar-chat">
             <div  className='position-colorwheel'>
               <div id="colorpicker">
                <ColorPicker 
@@ -78,7 +78,7 @@ function Mostrador(props) {
                 BackComunication.editChat(chat_info.id, color.hex).then((res) => {
                   getChatData();
                 });
-                document.getElementById("page_modal_chat_edit"+chat_info.id).style.display = "none";
+                document.getElementById("page-modal-chat-edit"+chat_info.id).style.display = "none";
               }} 
               style={{backgroundColor: color.hex, color:  uF.getContrastYIQ(color.hex)}}
               > Save </button>
@@ -90,8 +90,8 @@ function Mostrador(props) {
   });
 
   return (
-    <div id="todoMostrador">
-      <div id='organizeDiv'>{chat_in_divs}</div>
+    <div id="todo-mostrador">
+      <div id='organize-div'>{chat_in_divs}</div>
 
       <footer className='rodape'>
         <a href='https://elmigu17.github.io/portifolio/' className='link-my-page'>Made By Miguel</a>
