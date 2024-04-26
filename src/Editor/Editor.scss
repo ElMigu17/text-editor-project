@@ -169,6 +169,8 @@
   padding: 2px 5px;
   height: fit-content;
   position: relative;
+  font-family: 'Roboto-Regular';
+  font-size: 14px;
   &:hover > .minus-button{
     display: flex;
   }

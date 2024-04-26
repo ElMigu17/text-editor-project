@@ -5,6 +5,7 @@ import arrow from "../assets/arrow.png";
 import { useLocation } from 'react-router-dom';
 import BackComunication from '../basico/ComunicationBack.js';
 import utilFunctions from '../basico/Util.js'
+import { ColorPicker, useColor } from "react-color-palette";
 
 function Editor() { 
   const uF = new utilFunctions();
@@ -16,9 +17,12 @@ function Editor() {
   const [lastDate, setLastDate] = useState({}); 
   const location = useLocation();
   const [messagens, setMessagens] = useState([]);
+  const [color, setColor] = useColor("561ecb");
+
 
 
   function getTextareaText(){
+    
     let textarea = document.getElementsByTagName("textarea")[0];
     let text = textarea.value;
     text = text.replaceAll("\n", "<br/>");
@@ -54,8 +58,9 @@ function Editor() {
   }
 
   function addNewTag(tag){
-    return( <div key={tag.name} 
-      style={{backgroundColor: "#" + tag.color, color: uF.getContrastYIQ("#"+tag.color)}} 
+    return( 
+    <div key={tag.name} 
+      style={{backgroundColor: tag.color, color: uF.getContrastYIQ(tag.color)}} 
       className='tag-style'
       >{tag.name}
       <button className='minus-button'
@@ -64,14 +69,14 @@ function Editor() {
             getTagsData();
           });
         }} 
-      >
-        -
-      </button>
+        >
+          -
+        </button>
       </div>); 
   }
 
   function addNewTagOption(tag){
-    return( <option style={{backgroundColor: "#" + tag.color }} key={tag.id} value={tag.id}>{tag.name}</option>); 
+    return( <option style={{backgroundColor: tag.color }} key={tag.id} value={tag.id}>{tag.name}</option>); 
   }
 
   function createNewMessage(){ 
@@ -91,10 +96,9 @@ function Editor() {
 
   
   function createNewTag(){ 
-    let tagColor = document.getElementById("color-for-tag").value;
     let tagName = document.getElementById("name-for-tag").value; 
 
-    BackComunication.postTag(tagColor, tagName, idText).then(() => {
+    BackComunication.postTag(color.hex, tagName, idText).then(() => {
       BackComunication.getTagsByChat(idText).then( (res) =>{
         setTags(res);
       });
@@ -266,9 +270,15 @@ function Editor() {
 
           </div>
           <div id="modal-criar-tag">
-            <div id="modal-criar-tag-input">
-              Color:  
-              <input id="color-for-tag"></input>
+            
+            <div  className='position-colorwheel'>
+              <div id="colorpicker">
+               <ColorPicker 
+                hideAlpha={true} 
+                hideInput={["rgb", "hsv"]} 
+                color={color} 
+                onChange={setColor} />
+              </div>
             </div>
             <div id="modal-criar-tag-input">
               Name:  
