@@ -182,16 +182,6 @@
   width: fit-content;
 }
 
-input:focus{
-  outline: 2px solid black;
-}
-
-input:valid{
-  border: 3px solid green;
-}
-input:invalid{
-  border: 3px solid red;
-}
 @media screen and (max-width: 600px) {
   .div-text-caracteristics{
     margin: 0;

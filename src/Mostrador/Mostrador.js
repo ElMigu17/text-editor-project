@@ -1,4 +1,4 @@
-import React, {useEffect, useState, Fragment } from 'react';
+import React, {useEffect, useState } from 'react';
 import parse from "html-react-parser";
 import './Mostrador.scss';
 import { Link } from 'react-router-dom';
@@ -52,11 +52,10 @@ function Mostrador(props) {
           <button className='minus-button-chat colorwheel-icon'
           onClick={() => {
             document.getElementById("page-modal-chat-edit"+chat_info.id).style.display = "flex";
-          }}
-            >
-              <img src={EditorIcon}></img>
-            </button>
-          </div>
+          }}>
+            <img src={EditorIcon}></img>
+          </button>
+        </div>
           
         <div id={"page-modal-chat-edit" + chat_info.id} className='page-modal-chat-edit'>
           <div id="back-modal-criar-chat" onClick={() =>{
