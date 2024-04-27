@@ -76,7 +76,7 @@ function Editor() {
   }
 
   function addNewTagOption(tag){
-    return( <option style={{backgroundColor: tag.color }} key={tag.id} value={tag.id}>{tag.name}</option>); 
+    return( <option style={{backgroundColor: tag.color, color: uF.getContrastYIQ(tag.color)}} key={tag.id} value={tag.id}>{tag.name}</option>); 
   }
 
   function createNewMessage(){ 
@@ -93,7 +93,6 @@ function Editor() {
     }
     
   }
-
   
   function createNewTag(){ 
     let tagName = document.getElementById("name-for-tag").value; 
@@ -116,7 +115,6 @@ function Editor() {
   async function getTagsData(){
     await BackComunication.getTagsByChat(location.state).then( (tagsChatBD) =>{
       BackComunication.getAllTags().then( (res) =>{   
-
         let tags_by_name = {};
         let tags_selecionadas = []
 

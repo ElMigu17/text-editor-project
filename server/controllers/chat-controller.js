@@ -27,6 +27,19 @@ exports.getAllTags = async (req, res) => {
     .catch(err => {
       res.json({ message: `There was an error retrieving chats: ${err}` })
     })
+}
+
+exports.getAllTagsByChat = async (req, res) => {
+  knex
+    .select('*') 
+    .from('tag')
+    .leftJoin('tag_chat', 'tag_chat.tagId', 'tag.id')
+    .then(userData => {
+      res.json(userData)
+    })
+    .catch(err => {
+      res.json({ message: `There was an error retrieving chats: ${err}` })
+    })
 } 
 
 exports.getLastChatId = async (req, res) => {

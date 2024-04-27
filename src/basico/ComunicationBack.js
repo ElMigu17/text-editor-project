@@ -57,7 +57,7 @@ class ClassBackComunication {
 
     async getAllTags(){
         return $.ajax(this.baseUrl + "getAllTags",{
-            type: "POST",
+            type: "GET",
             dataType: 'json', 
             contentType: 'application/json', 
             success: function(response){ 
@@ -65,6 +65,21 @@ class ClassBackComunication {
             },
             error: function(response){
                 console.log("getAllTags DEU RUIM FI");
+                return response;
+            }  
+        })
+    };
+
+    async getAllTagsByChat(){
+        return $.ajax(this.baseUrl + "getAllTagsByChat",{
+            type: "GET",
+            dataType: 'json', 
+            contentType: 'application/json', 
+            success: function(response){ 
+                return response; 
+            },
+            error: function(response){
+                console.log("getAllTagsByChat DEU RUIM FI");
                 return response;
             }  
         })

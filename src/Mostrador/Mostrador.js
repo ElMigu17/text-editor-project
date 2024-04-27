@@ -12,6 +12,8 @@ function Mostrador(props) {
   const uF = new utilFunctions();
   const [chatsInfo, setChatsInfo] = useState("");
   const [color, setColor] = useColor("561ecb");
+  const [tags, setTags] = useState({});
+  const tagsHtml = {};
 
   async function getChatData(){
     BackComunication.getChatWithLastMessage().then( (res) =>{
@@ -20,16 +22,68 @@ function Mostrador(props) {
 
   }
 
+  function addNewTag(tag){
+    return( 
+    <div key={tag.name} 
+      style={{backgroundColor: tag.color, color: uF.getContrastYIQ(tag.color)}} 
+      className='tag-style'
+      >{tag.name}
+      </div>); 
+  }
+
   useEffect(() => {
-    getChatData()
+    getChatData();
+        
+    BackComunication.getAllTagsByChat().then( (res) =>{
+      let dictioary = {}
+
+      for(let i in res){
+          let tag = res[i];
+          if(tag.chatId == null){
+              continue;
+          }
+          if(!dictioary[tag.chatId]){
+              dictioary[tag.chatId] = [];
+          }
+          dictioary[tag.chatId].push(tag);
+      }
+      setTags(dictioary);
+    });
+
   }, [])
+
+  for(let t in tags){
+    let chat_tags = tags[t];
+    if(!tagsHtml[t]){
+      tagsHtml[t] = [];
+    }
+    Object.keys(chat_tags).forEach(function(step) {
+      let tag = chat_tags[step];
+      tagsHtml[t].push(addNewTag(tag));
+    });
+  }
+
+
 
   const chat_in_divs = [];
   
   Object.keys(chatsInfo).forEach((step) => {
     let chat_info = chatsInfo[step];
+
+
+
     chat_in_divs.push(
+      
       <div className='position-chat-link'>
+        
+        <div className='showing-tags'>  
+          <div className='organizacao-tags'>
+            {tagsHtml[chat_info.id]}
+          </div>
+          <svg className='triangle-tag' width="40" height="20">
+            <polygon points="0,0, 18,0, 0,20" fill='#7CBFA7'/>
+          </svg>
+        </div>
         <Link key={chat_info.id}
           to={{pathname:"/editor"}}  
           state={chat_info.id}
