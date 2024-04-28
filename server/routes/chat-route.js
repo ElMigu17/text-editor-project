@@ -1,27 +1,30 @@
 const express = require('express')
 
-const chatRoutes = require('../controllers/chat-controller.js')
+const chatController = require('../controllers/chat-controller.js')
+const tagController = require('../controllers/tag-controller.js')
+const messageController = require('../controllers/message-controller.js')
 
 const router = express.Router()
 
-router.get('/allChatComplete', chatRoutes.chatAllComplete)
-router.get('/allChatWithLastMessage', chatRoutes.chatAllWithLastMessage)
-router.get('/getLastChatId', chatRoutes.getLastChatId)
-router.get('/getAllTags', chatRoutes.getAllTags)
-router.get('/getAllTagsByChat', chatRoutes.getAllTagsByChat)
-router.post('/oneChatComplete', chatRoutes.oneChatComplete) 
-router.post('/getTagsByChat', chatRoutes.getTagsByChat)
+router.get('/allChatComplete', chatController.chatAllComplete)
+router.get('/allChatWithLastMessage', chatController.chatAllWithLastMessage)
+router.get('/getLastChatId', chatController.getLastChatId)
+router.post('/oneChatComplete', chatController.oneChatComplete) 
 
-router.post('/chat', chatRoutes.chatCreate)
-router.post('/tag', chatRoutes.tagCreate)
-router.post('/tagChatLink', chatRoutes.tagChatLinkCreate)
-router.post('/message', chatRoutes.messageCreate) 
+router.get('/getAllTags', tagController.getAllTags)
+router.get('/getAllTagsByChat', tagController.getAllTagsByChat)
+router.post('/getTagsByChat', tagController.getTagsByChat)
 
-router.post('/editChat', chatRoutes.editChat)
+router.post('/chat', chatController.chatCreate)
+router.post('/tag', tagController.tagCreate)
+router.post('/tagChatLink', tagController.tagChatLinkCreate)
+router.post('/message', messageController.messageCreate) 
 
-router.put('/deleteChat', chatRoutes.chatDelete)
-router.put('/deleteTag', chatRoutes.tagDelete)
-router.put('/deleteMessage', chatRoutes.messageDelete)
-router.put('/tagChatLinkDelete', chatRoutes.tagChatLinkDelete)
+router.post('/editChat', chatController.editChat)
+
+router.put('/deleteChat', chatController.chatDelete)
+router.put('/deleteTag', tagController.tagDelete)
+router.put('/tagChatLinkDelete', tagController.tagChatLinkDelete)
+router.put('/deleteMessage', messageController.messageDelete)
 
 module.exports = router
