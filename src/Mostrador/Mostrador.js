@@ -108,7 +108,7 @@ function Mostrador(props) {
           onClick={() => {
             document.getElementById("page-modal-chat-edit"+chat_info.id).style.display = "flex";
           }}>
-            <img src={EditorIcon}></img>
+            <img src={EditorIcon} alt='color-wheel'></img>
           </button>
         </div>
           
