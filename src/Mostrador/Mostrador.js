@@ -2,7 +2,8 @@ import React, {useEffect, useState } from 'react';
 import parse from "html-react-parser";
 import './Mostrador.scss';
 import { Link } from 'react-router-dom';
-import BackComunication from '../basico/ComunicationBack.js';
+import ChatService from '../service/chat-service.js';
+import TagService from '../service/tag-service.js';
 import utilFunctions from '../basico/Util.js'
 import EditorIcon from '../assets/colorwheel.webp';
 import { ColorPicker, useColor } from "react-color-palette";
@@ -16,7 +17,7 @@ function Mostrador(props) {
   const tagsHtml = {};
 
   async function getChatData(){
-    BackComunication.getChatWithLastMessage().then( (res) =>{
+    ChatService.getChatWithLastMessage().then( (res) =>{
       setChatsInfo(res);
     });
 
@@ -34,7 +35,7 @@ function Mostrador(props) {
   useEffect(() => {
     getChatData();
         
-    BackComunication.getAllTagsByChat().then( (res) =>{
+    TagService.getAllTagsByChat().then( (res) =>{
       let dictioary = {}
 
       for(let i in res){
@@ -96,7 +97,7 @@ function Mostrador(props) {
         <div className='buttons'>
           <button className='minus-button-chat'
               onClick={() => {
-                BackComunication.deleteChat(chat_info.id).then((res) => {
+                ChatService.deleteChat(chat_info.id).then((res) => {
                   getChatData();
                 });
               }} 
@@ -128,7 +129,7 @@ function Mostrador(props) {
             
             <button className='create-button'
               onClick={ ()=>{
-                BackComunication.editChat(chat_info.id, color.hex).then((res) => {
+                ChatService.editChat(chat_info.id, color.hex).then((res) => {
                   getChatData();
                 });
                 document.getElementById("page-modal-chat-edit"+chat_info.id).style.display = "none";

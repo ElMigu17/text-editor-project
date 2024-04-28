@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.scss";
-import BackComunication from '../basico/ComunicationBack.js';
+import ClassChatService from '../service/chat-service.js';
 import { ColorPicker, useColor } from "react-color-palette";
 import utilFunctions from '../basico/Util.js'
 
@@ -10,7 +10,7 @@ function Navbar() {
   const [color, setColor] = useColor("561ecb");
   
   function createChat(){
-    BackComunication.postChat(color.hex);
+    ClassChatService.postChat(color.hex);
     document.getElementById("page_modal_chat").style.display = "none";
   }
   

@@ -3,7 +3,9 @@ import './Editor.scss';
 import MsgBox from './MsgBox';
 import arrow from "../assets/arrow.png";
 import { useLocation } from 'react-router-dom';
-import BackComunication from '../basico/ComunicationBack.js';
+import ChatService from '../service/chat-service.js';
+import TagService from '../service/tag-service.js';
+import MessageService from '../service/message-service.js';
 import utilFunctions from '../basico/Util.js'
 import { ColorPicker, useColor } from "react-color-palette";
 
@@ -65,7 +67,7 @@ function Editor() {
       >{tag.name}
       <button className='minus-button'
         onClick={() => {
-          BackComunication.tagChatLinkDelete(tag.id, idText).then(() => {
+          TagService.tagChatLinkDelete(tag.id, idText).then(() => {
             getTagsData();
           });
         }} 
@@ -83,8 +85,8 @@ function Editor() {
     let newMsg = getTextareaText(); 
     
     if(newMsg !== ""){
-      BackComunication.postMessage(newMsg, idText).then( () => {
-        BackComunication.getOneChatComplete(idText).then( (res) =>{
+      MessageService.postMessage(newMsg, idText).then( () => {
+        ChatService.getOneChatComplete(idText).then( (res) =>{
           let message = res[res.length-1]
           setMessagens((prevMessages) => [ ...prevMessages, addNewMessage(message['text'], parseInt(message['created_at']))]);
 
@@ -97,9 +99,10 @@ function Editor() {
   function createNewTag(){ 
     let tagName = document.getElementById("name-for-tag").value; 
 
-    BackComunication.postTag(color.hex, tagName, idText).then(() => {
-      BackComunication.getTagsByChat(idText).then( (res) =>{
+    TagService.postTag(color.hex, tagName, idText).then(() => {
+      TagService.getTagsByChat(idText).then( (res) =>{
         setTags(res);
+        closeTagEditor()
       });
     })
   }
@@ -113,8 +116,8 @@ function Editor() {
   }
   
   async function getTagsData(){
-    await BackComunication.getTagsByChat(location.state).then( (tagsChatBD) =>{
-      BackComunication.getAllTags().then( (res) =>{   
+    await TagService.getTagsByChat(location.state).then( (tagsChatBD) =>{
+      TagService.getAllTags().then( (res) =>{   
         let tags_by_name = {};
         let tags_selecionadas = []
 
@@ -144,10 +147,10 @@ function Editor() {
       let chatInfoEffect = []
 
       if(!location.state){
-        await BackComunication.getLastChatId().then((res)=>{
+        await ChatService.getLastChatId().then((res)=>{
           setIdText(res[0].id);
           getTagsData();
-          BackComunication.getOneChatComplete(idText).then( (res) =>{
+          ChatService.getOneChatComplete(idText).then( (res) =>{
             chatInfoEffect = res
           });
           
@@ -155,7 +158,7 @@ function Editor() {
       }
       else{
         setIdText(location.state)
-        await BackComunication.getOneChatComplete(location.state).then( (res) =>{
+        await ChatService.getOneChatComplete(location.state).then( (res) =>{
           getTagsData();
           chatInfoEffect = res
         });  
@@ -248,7 +251,7 @@ function Editor() {
               <button onClick={() => {
                 var e = document.getElementById("select-tag");
                 var value = e.value;
-                BackComunication.postTagChatLink(value, idText).then(() =>{
+                TagService.postTagChatLink(value, idText).then(() =>{
                   getTagsData();
                 });
                 closeTagEditor();

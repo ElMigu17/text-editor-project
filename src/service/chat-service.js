@@ -1,7 +1,6 @@
 import $ from 'jquery';
 
-
-class ClassBackComunication {
+class ClassChatService {
     constructor() {
       this.baseUrl = "http://localhost:3001/chat/";
     }
@@ -35,53 +34,6 @@ class ClassBackComunication {
                 console.log("getOneChatComplete DEU RUIM FI");
                 return response;
             }
-        })
-    };
-
-    
-    async getTagsByChat(chatId){
-        return $.ajax(this.baseUrl + "getTagsByChat",{
-            type: "POST",
-            dataType: 'json', 
-            contentType: 'application/json', 
-            data: JSON.stringify({chatId: chatId}), 
-            success: function(response){ 
-                return response; 
-            },
-            error: function(response){
-                console.log("getTagsByChat DEU RUIM FI");
-                return response;
-            }  
-        })
-    };
-
-    async getAllTags(){
-        return $.ajax(this.baseUrl + "getAllTags",{
-            type: "GET",
-            dataType: 'json', 
-            contentType: 'application/json', 
-            success: function(response){ 
-                return response; 
-            },
-            error: function(response){
-                console.log("getAllTags DEU RUIM FI");
-                return response;
-            }  
-        })
-    };
-
-    async getAllTagsByChat(){
-        return $.ajax(this.baseUrl + "getAllTagsByChat",{
-            type: "GET",
-            dataType: 'json', 
-            contentType: 'application/json', 
-            success: function(response){ 
-                return response; 
-            },
-            error: function(response){
-                console.log("getAllTagsByChat DEU RUIM FI");
-                return response;
-            }  
         })
     };
 
@@ -133,38 +85,6 @@ class ClassBackComunication {
         })
     };
 
-    async postTag(color, name, chatId){
-        return $.ajax(this.baseUrl + "tag",{
-            type: "POST",
-            dataType: 'json', 
-            contentType: 'application/json', 
-            data: JSON.stringify({color: color, name: name, chatId: chatId}), 
-            success: function(response){ 
-                return response; 
-            },
-            error: function(response){
-                console.log("postTag DEU RUIM FI");
-                return response;
-            }
-        })
-    };
-
-    async postTagChatLink(tag_id, chat_id){
-        return $.ajax(this.baseUrl + "tagChatLink",{
-            type: "POST",
-            dataType: 'json', 
-            contentType: 'application/json', 
-            data: JSON.stringify({tagId: tag_id, chatId: chat_id}), 
-            success: function(response){ 
-                return response; 
-            },
-            error: function(response){
-                console.log("postTagChatLink DEU RUIM FI");
-                return response;
-            }
-        })
-    };
-
     async getLastChatId(){
         return $.ajax(this.baseUrl + "getLastChatId",{
             type: "GET",
@@ -179,21 +99,7 @@ class ClassBackComunication {
             }
         })
     };
-    async tagChatLinkDelete(tag_id, chat_id){
-        return $.ajax(this.baseUrl + "tagChatLinkDelete",{
-            type: "PUT",
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify({tagId: tag_id, chatId: chat_id}), 
-            success: function(response){
-                return response;
-            },
-            error: function(response){
-                console.log("tagChatLinkDelete DEU RUIM FI", tag_id, chat_id);
-                return response;
-            }
-        })
-    };
+
     async deleteChat( chat_id){
         return $.ajax(this.baseUrl + "deleteChat",{
             type: "PUT",
@@ -211,6 +117,6 @@ class ClassBackComunication {
     };
 }
 
-const BackComunication = new ClassBackComunication();
+const ChatService = new ClassChatService();
 
-export default BackComunication;
+export default ChatService;
