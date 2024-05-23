@@ -9,18 +9,28 @@ import EditorIcon from '../assets/colorwheel.webp';
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 
-function Mostrador(props) {
+function Mostrador(props) { 
   const uF = new utilFunctions();
-  const [chatsInfo, setChatsInfo] = useState("");
+  const [chatsInfo, setChatsInfo] = useState({});
   const [color, setColor] = useColor("561ecb");
-  const [tags, setTags] = useState({});
-  const tagsHtml = {};
+  const [tagsByChat, setTagsByChat] = useState({});
+  const [tagsById, setTagsById] = useState([]);
+  const [selectedTagsHtml, setSelectedTagsHtml] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const tagsByChatHtml = {};
+  const tagsHtml = [];
 
   async function getChatData(){
-    ChatService.getChatWithLastMessage().then( (res) =>{
-      setChatsInfo(res);
-    });
-
+    if (selectedTags.length == 0){
+      ChatService.getChatWithLastMessage().then( (res) => {
+        setChatsInfo(res); 
+      });
+    }
+    else{
+      ChatService.getChatWithLastMessageByTags(selectedTags).then( (res) => {
+        setChatsInfo(res);
+      });
+    }
   }
 
   function addNewTag(tag){
@@ -32,46 +42,53 @@ function Mostrador(props) {
       </div>); 
   }
 
+  function addNewTagOption(tag){
+    return( <option style={{backgroundColor: tag.color, color: uF.getContrastYIQ(tag.color)}} key={"tag" + tag.id} value={tag.id}>{tag.name}</option>); 
+  }
+
   useEffect(() => {
     getChatData();
         
     TagService.getAllTagsByChat().then( (res) =>{
-      let dictioary = {}
+      let buildingTagsByChat = {};
+      let tagsByTags = {};
 
       for(let i in res){
           let tag = res[i];
+          if(!tagsByTags[tag.id]){
+            tagsByTags[tag.id] = tag;
+
+          }
           if(tag.chatId == null){
-              continue;
+            continue;
           }
-          if(!dictioary[tag.chatId]){
-              dictioary[tag.chatId] = [];
+          if(!buildingTagsByChat[tag.chatId]){
+            buildingTagsByChat[tag.chatId] = [];
           }
-          dictioary[tag.chatId].push(tag);
+          buildingTagsByChat[tag.chatId].push(tag);
       }
-      setTags(dictioary);
+      setTagsByChat(buildingTagsByChat);
+      setTagsById(tagsByTags);
+      
     });
 
   }, [])
-
-  for(let t in tags){
-    let chat_tags = tags[t];
-    if(!tagsHtml[t]){
-      tagsHtml[t] = [];
+ 
+  for(let t in tagsByChat){
+    let chat_tags = tagsByChat[t];
+    if(!tagsByChatHtml[t]){
+      tagsByChatHtml[t] = [];
     }
     Object.keys(chat_tags).forEach(function(step) {
       let tag = chat_tags[step];
-      tagsHtml[t].push(addNewTag(tag));
+      tagsByChatHtml[t].push(addNewTag(tag));
     });
   }
 
-
-
   const chat_in_divs = [];
-  
+
   Object.keys(chatsInfo).forEach((step) => {
     let chat_info = chatsInfo[step];
-
-
 
     chat_in_divs.push(
       
@@ -79,7 +96,7 @@ function Mostrador(props) {
         
         <div className='showing-tags'>  
           <div className='organizacao-tags'>
-            {tagsHtml[chat_info.id]}
+            {tagsByChatHtml[chat_info.id]}
           </div>
           <svg className='triangle-tag' width="40" height="20">
             <polygon points="0,0, 18,0, 0,20" fill='#7CBFA7'/>
@@ -142,9 +159,46 @@ function Mostrador(props) {
       </div>
     );
   });
+  
+  Object.keys(tagsById).forEach(function(step) {
+    let tag = tagsById[step];
+    tagsHtml.push(addNewTagOption(tag));
+  });
 
   return (
     <div id="todo-mostrador">
+    
+      <div className='position-tag-filter'>
+        <div id='filtered-tags'>  
+          <div id='organizacao-tags'>
+            {selectedTagsHtml}
+          </div>
+          <svg className='triangle-tag-selected-tag' width="40" height="20">
+            <polygon points="0,0, 18,20, 0,20" fill='#7CBFA7'/>
+          </svg>
+        </div>
+        
+        
+        <select name="filter-tag" id="filter-tag" onChange={() => {
+          var e = document.getElementById("filter-tag");
+          let valueNumber = Number(e.value);
+          if(!selectedTags.includes(valueNumber)){
+            let newtag = addNewTag(tagsById[valueNumber]);
+            let tempArray = selectedTagsHtml.map(el => el);
+            tempArray.push(newtag);  
+            setSelectedTagsHtml(tempArray ); 
+
+            let newTempArray = selectedTags.map(el => el);
+            newTempArray.push(valueNumber);  
+            setSelectedTags(newTempArray);
+
+          }
+        }
+        }>
+          {tagsHtml}
+        </select>
+
+      </div>
       <div id='organize-div'>{chat_in_divs}</div>
 
       <footer className='rodape'>

@@ -40,7 +40,29 @@
   height: 90px;
   width: 200px;
 }
+#filtered-tags{
+  display: none;
+  position: absolute;
+  top: 40px;
+  margin-left: 40px;
+  background-color: #7CBFA7;
+  height: 90px;
+  width: 200px;
+}
 
+.position-tag-filter{
+  position: absolute;
+  z-index: 21;
+  width: 60%;
+  margin: 90px 20% 0 20%;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover > #filtered-tags{
+    display: flex;
+  }
+}
 .position-chat-link{
   text-decoration: none;
   
@@ -65,6 +87,11 @@
 .triangle-tag{
   position: absolute;
   top: 90px;
+}
+
+.triangle-tag-selected-tag{
+  position: absolute;
+  top: -20px;
 }
 
 .minus-button-chat{

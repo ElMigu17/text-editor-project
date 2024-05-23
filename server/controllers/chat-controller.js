@@ -69,6 +69,50 @@ exports.chatAllWithLastMessage = async (req, res) => {
     })
     .catch(err => {
       res.json({ message: `There was an error retrieving chat: ${err}` })
+    })   
+}
+
+exports.chatAllWithLastMessageByTags = async (req, res) => { 
+  console.log(req.body);
+  let tagsId = Object.keys(req.body.tags).map((key) => req.body.tags[key]);
+  var subquery = knex.max('created_at')
+    .from('message')
+    .groupBy('chatId');
+
+  knex
+    .select('chat.*', 'message.updated_at as updated_at', 'message.created_at as created_at', 'message.text', 'tag.color as tagColor', 'tag.name as tagName') 
+    .from('chat')
+    .leftJoin('message', 'chat.id', 'message.chatId')
+    .leftJoin('tag_chat', 'tag_chat.chatId', 'chat.id')
+    .leftJoin('tag', 'tag_chat.tagId', 'tag.id')
+    .where('message.created_at', 'in', subquery)
+    .whereIn('tag.id', tagsId)
+    .then(chatsData => {
+
+      var dataReorganized = {}
+      for(let i in chatsData){
+        let chat = chatsData[i];
+        let id = chat.id;
+        if(!dataReorganized[id]){
+          let novoChat = {}
+          novoChat.color = chat.color;
+          novoChat.text = chat.text;
+          novoChat.colcreated_ator = chat.created_at;
+          novoChat.updated_at = chat.updated_at;
+          novoChat.id = chat.id;
+          novoChat.tag = [];
+          dataReorganized[id] = novoChat;
+        }
+        let novaTag = {};
+        novaTag.tagColor = chat.tagColor;
+        novaTag.tagName = chat.tagName;
+        dataReorganized[id].tag.push(novaTag);
+      }
+
+      res.json(Object.values(dataReorganized))
+    })
+    .catch(err => {
+      res.json({ message: `There was an error retrieving chat: ${err}` })
     })
 }
 

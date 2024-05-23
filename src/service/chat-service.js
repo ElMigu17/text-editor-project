@@ -20,6 +20,22 @@ class ClassChatService {
             }
         })
     };
+  
+    async getChatWithLastMessageByTags(tags){
+        return $.ajax(this.baseUrl + "chatAllWithLastMessageByTags",{
+            type: "POST",
+            dataType: 'json',    
+            contentType: 'application/json', 
+            data: JSON.stringify({tags: tags}),     
+            success: function(response){  
+                return response;  
+            },
+            error: function(response){
+                console.log("chatAllWithLastMessageByTags DEU RUIM FI");
+                return response;
+            }
+        }) 
+    };
 
     async getOneChatComplete(chatId){
         return $.ajax(this.baseUrl + "oneChatComplete",{

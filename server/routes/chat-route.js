@@ -4,11 +4,12 @@ const chatController = require('../controllers/chat-controller.js')
 const tagController = require('../controllers/tag-controller.js')
 const messageController = require('../controllers/message-controller.js')
 
-const router = express.Router()
-
+const router = express.Router()   
+  
 router.get('/allChatComplete', chatController.chatAllComplete)
 router.get('/allChatWithLastMessage', chatController.chatAllWithLastMessage)
 router.get('/getLastChatId', chatController.getLastChatId)
+router.post('/chatAllWithLastMessageByTags', chatController.chatAllWithLastMessageByTags)
 router.post('/oneChatComplete', chatController.oneChatComplete) 
 
 router.get('/getAllTags', tagController.getAllTags)
