@@ -21,7 +21,7 @@ function Mostrador(props) {
   const tagsHtml = [];
 
   async function getChatData(){
-    if (selectedTags.length == 0){
+    if (selectedTags.length === 0){
       ChatService.getChatWithLastMessage().then( (res) => {
         setChatsInfo(res); 
       });
@@ -59,7 +59,7 @@ function Mostrador(props) {
             tagsByTags[tag.id] = tag;
 
           }
-          if(tag.chatId == null){
+          if(tag.chatId === null){
             continue;
           }
           if(!buildingTagsByChat[tag.chatId]){
@@ -72,7 +72,7 @@ function Mostrador(props) {
       
     });
 
-  }, [])
+  }, [selectedTagsHtml])
  
   for(let t in tagsByChat){
     let chat_tags = tagsByChat[t];
